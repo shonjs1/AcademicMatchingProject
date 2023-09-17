@@ -21,6 +21,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    Major: {
+        type: String,
+        required: true
+    },
+    subject: {
+        type: String,
+        required: true
+    },
+    skillLevel: {
+        type: String,
+        required: true
+    },
 })
 
 module.exports = mongoose.model('User' , userSchema)
