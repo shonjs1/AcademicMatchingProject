@@ -1,4 +1,4 @@
-const matchMaker = require('./Users/user')
+const matchMaker = require('../backend/models/User')
 
 async function findBestMatch(user, users) {
     let bestMatch = null;
@@ -11,11 +11,11 @@ async function findBestMatch(user, users) {
 
         let matchingParamsCount = 0;
 
-        if (user.majorField === users[i].majorField) {
+        if (user.Major === users[i].majorField) {
             matchingParamsCount++;
         }
 
-        if (user.major === users[i].major) {
+        if (user.subject === users[i].major) {
             matchingParamsCount++;
         }
 
