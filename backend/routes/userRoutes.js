@@ -10,4 +10,4 @@ router.route('./:id').put(updateUser).delete(deleteUser)
 // router.put('./', updateUser)
 router.delete('./', deleteUser)
 
-model.exports = router
+module.exports = router
