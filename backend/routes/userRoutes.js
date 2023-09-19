@@ -4,10 +4,10 @@ const {getUsers, setUser, updateUser, deleteUser} = require('.//controllers/user
 
 router.route('./').get(getUsers).post(setUser)
 router.get('/', getUsers)
-router.get('./', setUser)
+router.post('./', setUser)
 
 router.route('./:id').put(updateUser).delete(deleteUser)
 router.put('./', updateUser)
-router.put('./', deleteUserUser)
+router.delete('./', deleteUserUser)
 
 model.exports = router
