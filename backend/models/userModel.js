@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    classroom: {
+        type: String,
+        required: true
+    },
     photo: {
         type: String,
         required: false
