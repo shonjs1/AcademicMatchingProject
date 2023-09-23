@@ -5,7 +5,7 @@ const Subject = require('../models/subjectModel');
 const rawData = fs.readFileSync('./course_db/courses.json');
 const data = JSON.parse(rawData);
 
-// Function to add subjects and their courses
+// Function to add subjects and their courses to the database on mongoDB
 const addSubjectsAndCourses = async () => {
     try {
         for (const courseData of data.Course) {
@@ -38,7 +38,7 @@ const addSubjectsAndCourses = async () => {
             // Save the subject with the updated courses
             await subject.save();
         }
-        console.log('Subjects and courses added successfully');
+        console.log('Subjects and courses added successfully. (cancel Postman process when you see this line or it will keep running)');
     } catch (error) {
         console.error('Error adding subjects and courses:', error);
     }
