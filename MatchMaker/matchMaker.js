@@ -1,3 +1,4 @@
+const { getUsers } = require('../backend/controllers/userController');
 const matchMaker = require('../backend/models/User')
 
 async function findBestMatch(user, users) {
@@ -5,26 +6,27 @@ async function findBestMatch(user, users) {
     let bestMatchingParamsCount = 0;
 
     for (let i = 0; i < users.length; i++) {
-        if (user === users[i]) {
+        const potentialMatch = users[i];
+        if (user === potentialMatch || user.classroom !== potentialMatch.classroom) {
             continue;
         }
 
         let matchingParamsCount = 0;
 
-        if (user.Major === users[i].majorField) {
+        if (user.Major === potentialMatch.Major) {
             matchingParamsCount++;
         }
 
-        if (user.subject === users[i].major) {
+        if (user.subject === potentialMatch.subject) {
             matchingParamsCount++;
         }
 
-        if (user.skillLevel === users[i].skillLevel) {
+        if (user.skillLevel === potentialMatch.skillLevel) {
             matchingParamsCount++;
         }
 
         if (matchingParamsCount > bestMatchingParamsCount) {
-            bestMatch = users[i];
+            bestMatch = potentialMatch;
             bestMatchingParamsCount = matchingParamsCount;
         }
     }
@@ -33,7 +35,7 @@ async function findBestMatch(user, users) {
 }
 
 async function matchUsers() {
-    const users = await User.find({}); 
+    const users = getUsers; 
 
     const matchedPairs = [];
     const finalUnmatchedUsers = [];
