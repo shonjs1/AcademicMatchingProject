@@ -1,0 +1,23 @@
+const { expect } = require('chai');
+const { matchUsers } = require('./MatchMaker/matchMaker');
+const User = require('./backend/models/userModel');
+
+describe('matchMaker', () => {
+    it('should match users based on criteria', async () => {
+        const user1 = {
+            Major: 'Biology',
+            subject: 'Chemistry',
+            skillLevel: 'Advanced',
+        };
+
+        const user2 = {
+            Major: 'Biology', // Same major as user1
+            subject: 'Physics',
+            skillLevel: 'Intermediate',
+        };
+        const result = await matchUsers([user1, user2]);
+
+        expect(result).to.deep.equal([user1, user2]);
+    });
+
+});

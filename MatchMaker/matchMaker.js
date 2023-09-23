@@ -1,5 +1,4 @@
-const { getUsers } = require('../backend/controllers/userController');
-const matchMaker = require('../backend/models/User')
+const User = require('../backend/models/userModel')
 
 async function findBestMatch(user, users) {
     let bestMatch = null;
@@ -35,7 +34,7 @@ async function findBestMatch(user, users) {
 }
 
 async function matchUsers() {
-    const users = getUsers; 
+    const users = await User.find({}); 
 
     const matchedPairs = [];
     const finalUnmatchedUsers = [];
@@ -124,3 +123,7 @@ matchUsers()
     .catch((error) => {
         console.error('Error:', error);
     });
+
+    module.exports = {
+        matchUsers,
+    };
