@@ -515,19 +515,13 @@
         {
             "course_code": "APPL1894",
             "course_title": "SPT I: Applied Technologies",
-            "credit_hours": {
-                "min": 0.5,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Applied Technologies"
         },
         {
             "course_code": "APPL1994",
             "course_title": "SPT II: Applied Technologies",
-            "credit_hours": {
-                "min": 0.5,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Applied Technologies"
         },
         {
@@ -1020,19 +1014,13 @@
         {
             "course_code": "APPL2894",
             "course_title": "SPT III: Applied Technologies",
-            "credit_hours": {
-                "min": 0.5,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Applied Technologies"
         },
         {
             "course_code": "APPL2994",
             "course_title": "SPT IV: Applied Technologies",
-            "credit_hours": {
-                "min": 0.5,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Applied Technologies"
         },
 
@@ -1178,19 +1166,13 @@
         {
             "course_code": "ARCH2291",
             "course_title": "ARCH Field Experience",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Architect"
         },
         {
             "course_code": "ARCH2294",
             "course_title": "Special Topics in Architecture",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Architect"
         },
 
@@ -1233,10 +1215,7 @@
         {
             "course_code": "ART2294",
             "course_title": "SPT: Art",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Art"
         },
         {
@@ -2007,19 +1986,13 @@
         {
             "course_code": "CHEM2293",
             "course_title": "Independent Study in Chemistry",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Chemistry"
         },
         {
             "course_code": "CHEM2294",
             "course_title": "SPT: Chemistry",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Chemistry"
         },
 
@@ -2044,19 +2017,13 @@
         {
             "course_code": "CHIN1193",
             "course_title": "Independent Study in Chinese",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Chinese"
         },
         {
             "course_code": "CHIN1194",
             "course_title": "Special Topics in Chinese",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Chinese"
         },
 
@@ -2117,10 +2084,7 @@
         {
             "course_code": "CIVL2994",
             "course_title": "Special Topics in Civil Engineering",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Civil Engineering Technology"
         },
 
@@ -2151,10 +2115,7 @@
         {
             "course_code": "CLAS1294",
             "course_title": "SPT: Classics",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Classic"
         },
 
@@ -2958,10 +2919,7 @@
         {
             "course_code": "DANC1294",
             "course_title": "SPT: Dance",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Dance"
         },
 
@@ -3046,10 +3004,7 @@
         {
             "course_code": "DHY2294",
             "course_title": "SPT: Dental Hygiene",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 2.0,
             "subject": "Dental Hygiene"
         },
         {
@@ -3576,10 +3531,7 @@
         {
             "course_code": "ECON2193",
             "course_title": "Independent Study in Economics",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Economics"
         },
         {
@@ -3684,10 +3636,7 @@
         {
             "course_code": "EET2994",
             "course_title": "SPT Electronic Engineering Technology",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 2.0,
             "subject": "Electronic Engineering Technology"
         },
 
@@ -4057,10 +4006,7 @@
         {
             "course_code": "ENGL2994",
             "course_title": "SPT: English",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "English"
         },
 
@@ -4133,19 +4079,13 @@
         {
             "course_code": "ESL0193",
             "course_title": "Independent Study: ESL",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "English as Second Language"
         },
         {
             "course_code": "ESL0194",
             "course_title": "SPT: English as a Second Language",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "English as Second Language"
         },
 
@@ -4302,10 +4242,7 @@
         {
             "course_code": "ESSH2994",
             "course_title": "SPT: Environmental Science, Safety, & Health",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Environmental Science, Safety, and Health"
         },
 
@@ -4529,10 +4466,7 @@
         {
             "course_code": "FIRE2094",
             "course_title": "SPT: Emergency Services",
-            "credit_hours": {
-                "min": 0.5,
-                "max": 7.0
-            },
+            "credit_hours": 4.0,
             "subject": "Fire Science"
         },
         {
@@ -4654,19 +4588,13 @@
         {
             "course_code": "FREN1193",
             "course_title": "Independent Study in French",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 3.0,
             "subject": "French"
         },
         {
             "course_code": "FREN1194",
             "course_title": "Special Topics in French",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "French"
         },
 
@@ -4775,10 +4703,7 @@
         {
             "course_code": "GIS2594",
             "course_title": "Current Topics: GIS",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Geographic Information Systems"
         },
         {
@@ -4791,10 +4716,7 @@
         {
             "course_code": "GEOG1194",
             "course_title": "SPT: Geography",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Geography"
         },
         {
@@ -4806,10 +4728,7 @@
         {
             "course_code": "GEOG2193",
             "course_title": "Independent Study in Geography",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Geography"
         },
         {
@@ -4870,19 +4789,13 @@
         {
             "course_code": "GEOL2293",
             "course_title": "Independent Study in Geology",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Geology"
         },
         {
             "course_code": "GEOL2294",
             "course_title": "SPT: Geology",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Geology"
         },
 
@@ -4913,19 +4826,13 @@
         {
             "course_code": "GERM1193",
             "course_title": "Independent Study German",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "German"
         },
         {
             "course_code": "GERM1194",
             "course_title": "SPT: German",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "German"
         },
 
@@ -5016,10 +4923,7 @@
         {
             "course_code": "HIMT2294",
             "course_title": "Spec Topics in Health Info Mgmt",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Health Information Management Technology"
         },
         {
@@ -5074,10 +4978,7 @@
         {
             "course_code": "HVAC2094",
             "course_title": "SPT: HVAC",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Heating, Ventilating, and Air Conditioning"
         },
         {
@@ -5192,10 +5093,7 @@
         {
             "course_code": "HIST2294",
             "course_title": "SPT: History",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "History"
         },
         {
@@ -5631,55 +5529,6 @@
         },
 
         {
-            "course_code": "HRM1121",
-            "course_title": "Human Resources Management",
-            "credit_hours": 3.0,
-            "subject": "Humanities"
-        },
-        {
-            "course_code": "HRM1223",
-            "course_title": "Human Resource Policy and Procedure",
-            "credit_hours": 3.0,
-            "subject": "Humanities"
-        },
-        {
-            "course_code": "HRM1224",
-            "course_title": "Employee Training & Development",
-            "credit_hours": 3.0,
-            "subject": "Humanities"
-        },
-        {
-            "course_code": "HRM1225",
-            "course_title": "Employee and Labor Relations",
-            "credit_hours": 3.0,
-            "subject": "Humanities"
-        },
-        {
-            "course_code": "HRM1825",
-            "course_title": "Compensation",
-            "credit_hours": 3.0,
-            "subject": "Humanities"
-        },
-        {
-            "course_code": "HRM1828",
-            "course_title": "Benefits",
-            "credit_hours": 3.0,
-            "subject": "Humanities"
-        },
-        {
-            "course_code": "HRM2221",
-            "course_title": "Staffing Under the Law",
-            "credit_hours": 2.0,
-            "subject": "Humanities"
-        },
-        {
-            "course_code": "HRM2901",
-            "course_title": "HR Mgmt Practicum & Seminar",
-            "credit_hours": 3.0,
-            "subject": "Humanities"
-        },
-
-        {
             "course_code": "ITST1101",
             "course_title": "IT Fundamentals +",
             "credit_hours": 2.0,
@@ -5929,10 +5778,7 @@
         {
             "course_code": "IMM2994",
             "course_title": "IMM Current Topics",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Interactive Media"
         },
         {
@@ -5951,19 +5797,13 @@
         {
             "course_code": "IEP1194",
             "course_title": "Special Topics in Interpreting",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Interpreter Education Program"
         },
         {
             "course_code": "IEP1294",
             "course_title": "SPT: American Sign Language",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Interpreter Education Program"
         },
         {
@@ -5981,10 +5821,7 @@
         {
             "course_code": "IEP1394",
             "course_title": "Special Topics in Deaf Studies",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Interpreter Education Program"
         },
         {
@@ -6093,19 +5930,13 @@
         {
             "course_code": "ITAL1193",
             "course_title": "Independent Study in Italian",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Italian"
         },
         {
             "course_code": "ITAL1194",
             "course_title": "Special Topics in Italian",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Italian"
         },
         
@@ -6130,10 +5961,7 @@
         {
             "course_code": "JAPN1193",
             "course_title": "Independent Study in Japanese",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Japanese"
         },
         
@@ -6224,10 +6052,7 @@
         {
             "course_code": "LAND2994",
             "course_title": "SPT: LAND",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Landscape Design/Build"
         },
 
@@ -6252,10 +6077,7 @@
         {
             "course_code": "LATN1193",
             "course_title": "Independent Study in Latin",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Latin"
         },
         
@@ -6583,19 +6405,13 @@
         {
             "course_code": "MATH1193",
             "course_title": "Independent Study in Mathematics",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Mathematics"
         },
         {
             "course_code": "MATH1194",
             "course_title": "SPT: Mathematics",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Mathematics"
         },
         {
@@ -6625,19 +6441,13 @@
         {
             "course_code": "MATH2193",
             "course_title": "IS Mathematics II",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Mathematics"
         },
         {
             "course_code": "MATH2194",
             "course_title": "SPT: Mathematics II",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Mathematics"
         },
         {
@@ -6976,7 +6786,7 @@
         {
             "course_code": "IMAG2906",
             "course_title": "Post Primary Imaging I",
-            "credit_hours": "1.0 - 2.0",
+            "credit_hours": 2.0,
             "subject": "Medical Imaging"
         },
         {
@@ -7176,10 +6986,7 @@
         {
             "course_code": "MULT1194",
             "course_title": "SPT: Multi-Competency",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Multi-competency Health"
         },
         {
@@ -7414,10 +7221,7 @@
         {
             "course_code": "MUS2294",
             "course_title": "Special Topics in Music",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 5.0
-            },
+            "credit_hours": 4.0,
             "subject": "Music"
         },
 
@@ -7502,10 +7306,7 @@
         {
             "course_code": "NURS1194",
             "course_title": "SPT: Nursing",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Nursing"
         },
         {
@@ -7730,10 +7531,7 @@
         {
             "course_code": "LEGL2194",
             "course_title": "SPT: Paralegal Studies",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Paralegal Studies"
         },
         {
@@ -7776,10 +7574,7 @@
         {
             "course_code": "PHIL2294",
             "course_title": "SPT: Philosophy",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Philosophy"
         },
         
@@ -7822,19 +7617,13 @@
         {
             "course_code": "PHYS2293",
             "course_title": "Independent Study in Physics",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Physics"
         },
         {
             "course_code": "PHYS2294",
             "course_title": "SPT: Physics",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Physics"
         },
         {
@@ -7859,10 +7648,7 @@
         {
             "course_code": "POLS1194",
             "course_title": "SPT: Political Science",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Political Science"
         },
         {
@@ -7886,10 +7672,7 @@
         {
             "course_code": "POLS2193",
             "course_title": "Independent Study in Political Science",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Political Science"
         },
 
@@ -8023,10 +7806,7 @@
         {
             "course_code": "PSY2193",
             "course_title": "Independent Study in Psychology",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Psychology"
         },
         {
@@ -8365,19 +8145,13 @@
         {
             "course_code": "SKTR1894",
             "course_title": "Special Topics in Skilled Trades I",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Skilled Trades Technology"
         },
         {
             "course_code": "SKTR1994",
             "course_title": "Special Topics in Skilled Trades II",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Skilled Trades Technology"
         },
         {
@@ -8497,27 +8271,14 @@
         {
             "course_code": "SKTR2894",
             "course_title": "Special Topics in Skilled Trades III",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Skilled Trades Technology"
         },
         {
             "course_code": "SKTR2994",
             "course_title": "Special Topics in Skilled Trades IV",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Skilled Trades Technology"
-        },
-
-        {
-            "course_code": "SSCI1798",
-            "course_title": "Study Tour/Social Sciences",
-            "credit_hours": null,
-            "subject": "Social Sciences"
         },
 
         {
@@ -8559,10 +8320,7 @@
         {
             "course_code": "SAHS2194",
             "course_title": "SPT: SAHS",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 4.0
-            },
+            "credit_hours": 3.0,
             "subject": "Social and Human Services"
         },
         {
@@ -8839,10 +8597,7 @@
         {
             "course_code": "SES2694",
             "course_title": "Special Topics: Sport & Exercise Studies",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Sports and Exercise Studies"
         },
         {
@@ -9114,10 +8869,7 @@
         {
             "course_code": "SCM2994",
             "course_title": "SCM Current Topics",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Supply Chain Management"
         },
 
@@ -9245,10 +8997,7 @@
         {
             "course_code": "SURV2994",
             "course_title": "Special Topics in Surveying",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Survey"
         },
 
@@ -9327,10 +9076,7 @@
         {
             "course_code": "THEA2293",
             "course_title": "IS: Theatre",
-            "credit_hours": {
-                "min": 1.0,
-                "max": 3.0
-            },
+            "credit_hours": 2.0,
             "subject": "Theatre"
         },
 
@@ -9537,4 +9283,3 @@
     ]
 
 }
-

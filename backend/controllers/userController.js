@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler')
 
 const User = require('../models/userModel')
 // Import the userCourse function. Working on it
-//const userCourse = require('../path-to-userCourse');
+// const userCourse = require('../path-to-userCourse');
 
 const getUsers = asyncHandler(async (req, res) => {
     const users = await User.find()
@@ -25,7 +25,7 @@ const updateUser = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('User not found')
     }
-//updatedUser function
+// updatedUser function
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body,{
         new : true,
     })
@@ -46,7 +46,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(200).json(deletedUser)
 });
 
-// Function to update user's classroom with the result of userCourse
+// Function to update user's classroom with the result of Math 101, for now, in future by a function userClassroom() 
 const updateUserClassroom = asyncHandler(async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -57,9 +57,9 @@ const updateUserClassroom = asyncHandler(async (req, res) => {
         }
 
       // Call the userCourse function to get the course name
-      // const courseName = userCourse();
+      // const courseName = userClassroom();
 
-      // Update the user's classroom with the course name
+      // Update the user's Classroom with the course name
       // Update the name tho Math 101 for now
         user.classroom = "Math 101";
 
