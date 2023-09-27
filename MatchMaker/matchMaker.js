@@ -1,4 +1,5 @@
-const User = require('../backend/models/userModel')
+const User = require('../backend/models/userModel');
+const fetchUsers = require('./fetchUsers');
 
 async function findBestMatch(user, users) {
     let bestMatch = null;
@@ -34,7 +35,7 @@ async function findBestMatch(user, users) {
 }
 
 async function matchUsers() {
-    const users = await User.find({}); 
+    const users = await fetchUsers(); 
 
     const matchedPairs = [];
     const finalUnmatchedUsers = [];
@@ -42,12 +43,12 @@ async function matchUsers() {
     const threeMatchedUsers = [];
     for (let i = 0; i < users.length; i++) {
         const user = users[i];
-        const bestMatch = findBestMatch(user, users);
+        const bestMatch = await findBestMatch(user, users);
 
         if (
             bestMatch &&
-            findBestMatch(bestMatch, users) === user &&
-            findBestMatch(findBestMatch(bestMatch, users), users) === user
+            await findBestMatch(bestMatch, users) === user &&
+            await findBestMatch(await findBestMatch(bestMatch, users), users) === user
         ) {
             threeMatchedUsers.push({ user1: user, matchingParamsCount: 3 });
         }
@@ -57,12 +58,12 @@ async function matchUsers() {
     for (let i = 0; i < users.length; i++) {
         const user = users[i];
         if (!threeMatchedUsers.some((pair) => pair.user1 === user)) {
-            const bestMatch = findBestMatch(user, users);
+            const bestMatch = await findBestMatch(user, users);
 
             if (
                 bestMatch &&
-                findBestMatch(bestMatch, users) === user &&
-                findBestMatch(findBestMatch(bestMatch, users), users) !== user
+                await findBestMatch(bestMatch, users) === user &&
+                await findBestMatch(await findBestMatch(bestMatch, users), users) !== user
             ) {
                 twoMatchedUsers.push({ user1: user, user2: bestMatch, matchingParamsCount: 2 });
             }
@@ -76,11 +77,11 @@ async function matchUsers() {
             !threeMatchedUsers.some((pair) => pair.user1 === user) &&
             !twoMatchedUsers.some((pair) => pair.user1 === user || pair.user2 === user)
         ) {
-            const bestMatch = findBestMatch(user, users);
+            const bestMatch = await findBestMatch(user, users);
 
             if (
                 bestMatch &&
-                findBestMatch(bestMatch, users) !== user
+                await findBestMatch(bestMatch, users) !== user
             ) {
                 oneMatchedUsers.push({ user1: user, user2: bestMatch, matchingParamsCount: 1 });
             }

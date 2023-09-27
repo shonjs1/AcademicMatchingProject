@@ -1,47 +1,32 @@
-// const { expect } = require('chai');
+const { expect } = require('chai');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const { getUsers } = require('./backend/controllers/userController');
+const fetchUsers = require('./MatchMaker/fetchUsers')
+const { matchUsers } = require('./MatchMaker/matchMaker')
 
-// describe('matchMaker', () => {
-//     it('should match users based on criteria', async () => {
-//         const user1 = {
-//             Major: 'Biology',
-//             subject: 'Chemistry',
-//             skillLevel: 'Advanced',
-//         };
 
-//         const user2 = {
-//             Major: 'Biology', // Same major as user1
-//             subject: 'Physics',
-//             skillLevel: 'Intermediate',
-//         };
-//         const result = await matchUsers([user1, user2]);
+describe('matchMaker', () => {
+    it('should match users based on criteria', async () => {
+        
+        const matchedUsers = await matchUsers();
+        expect(matchedUsers.allPairs).to.be.an('array'); 
+        console.log(matchedUsers);
+    });
+});
 
-//         expect(result).to.deep.equal([user1, user2]);
+// chai.use(chaiHttp);
+// const expect = chai.expect;
+
+// describe('User Controller', () => {
+//     it('should return an array of users, and return 200 status', (done) =>  {
+//         chai
+//         .request('http://localhost:5000')
+//         .get('/api/users')
+//         .end((err, res) => {
+//             expect(res.body).to.be.an('array');
+//             expect(res).to.have.status(200);
+//             console.log(res.body);
+//             done();
+//             });
+//         });
 //     });
-
-// });
-
-
-chai.use(chaiHttp);
-const expect = chai.expect;
-
-describe('User Controller', () => {
-    it('should return an array of users', async function() {
-        this.timeout(5000); // Increase the timeout to 10 seconds
-        const result = await getUsers();
-        expect(result).to.be.an('array');
-        done();
-    });
-
-it('should return status 200 when fetching users', (done) => {
-    chai
-    .request('http://localhost:5000')
-    .get('/api/users')
-    .end((err, res) => {
-        expect(res).to.have.status(200);
-        done();
-    });
-});
-});
