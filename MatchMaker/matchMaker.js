@@ -1,5 +1,22 @@
-const User = require('../backend/models/userModel');
 const fetchUsers = require('./fetchUsers');
+
+function calculateMatchingParamsCount(user1, user2) {
+    let matchingParamsCount = 0;
+
+    if (user1.Major === user2.Major) {
+        matchingParamsCount++;
+    }
+
+    if (user1.subject === user2.subject) {
+        matchingParamsCount++;
+    }
+
+    if (user1.skillLevel === user2.skillLevel) {
+        matchingParamsCount++;
+    }
+
+    return matchingParamsCount;
+}
 
 async function findBestMatch(user, users) {
     let bestMatch = null;
@@ -7,7 +24,8 @@ async function findBestMatch(user, users) {
 
     for (let i = 0; i < users.length; i++) {
         const potentialMatch = users[i];
-        if (user === potentialMatch || user.classroom !== potentialMatch.classroom) {
+        
+        if (user === potentialMatch) {
             continue;
         }
 
@@ -35,85 +53,38 @@ async function findBestMatch(user, users) {
 }
 
 async function matchUsers() {
-    const users = await fetchUsers(); 
+    const users = await fetchUsers();
 
     const matchedPairs = [];
     const finalUnmatchedUsers = [];
 
-    const threeMatchedUsers = [];
+    function addToMatchedPairs(user1, user2, matchingParamsCount) {
+        matchedPairs.push({ user1, user2, matchingParamsCount });
+    }
+
     for (let i = 0; i < users.length; i++) {
         const user = users[i];
         const bestMatch = await findBestMatch(user, users);
 
-        if (
-            bestMatch &&
-            await findBestMatch(bestMatch, users) === user &&
-            await findBestMatch(await findBestMatch(bestMatch, users), users) === user
-        ) {
-            threeMatchedUsers.push({ user1: user, matchingParamsCount: 3 });
-        }
-    }
+        if (bestMatch) {
+            let matchingParamsCount;
 
-    const twoMatchedUsers = [];
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        if (!threeMatchedUsers.some((pair) => pair.user1 === user)) {
-            const bestMatch = await findBestMatch(user, users);
+            matchingParamsCount = calculateMatchingParamsCount(user, bestMatch);
 
-            if (
-                bestMatch &&
-                await findBestMatch(bestMatch, users) === user &&
-                await findBestMatch(await findBestMatch(bestMatch, users), users) !== user
-            ) {
-                twoMatchedUsers.push({ user1: user, user2: bestMatch, matchingParamsCount: 2 });
+            if (matchingParamsCount === 3) {
+                addToMatchedPairs(user, bestMatch, 3);
+            } else if (matchingParamsCount === 2) {
+                addToMatchedPairs(user, bestMatch, 2);
+            } else if (matchingParamsCount === 1) {
+                addToMatchedPairs(user, bestMatch, 1);
+            } else {
+                addToFinalUnmatchedUsers(user);
             }
         }
     }
-
-    const oneMatchedUsers = [];
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        if (
-            !threeMatchedUsers.some((pair) => pair.user1 === user) &&
-            !twoMatchedUsers.some((pair) => pair.user1 === user || pair.user2 === user)
-        ) {
-            const bestMatch = await findBestMatch(user, users);
-
-            if (
-                bestMatch &&
-                await findBestMatch(bestMatch, users) !== user
-            ) {
-                oneMatchedUsers.push({ user1: user, user2: bestMatch, matchingParamsCount: 1 });
-            }
-        }
-    }
-
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        if (
-            !threeMatchedUsers.some((pair) => pair.user1 === user) &&
-            !twoMatchedUsers.some((pair) => pair.user1 === user || pair.user2 === user) &&
-            !oneMatchedUsers.some((pair) => pair.user1 === user || pair.user2 === user)
-        ) {
-            finalUnmatchedUsers.push(user);
-        }
-    }
-
-    const unmatchedPairs = [];
-    for (let i = 0; i < finalUnmatchedUsers.length; i++) {
-        for (let j = i + 1; j < finalUnmatchedUsers.length; j++) {
-            unmatchedPairs.push({
-                user1: finalUnmatchedUsers[i],
-                user2: finalUnmatchedUsers[j],
-                matchingParamsCount: 0,
-            });
-        }
-    }
-
-    const allPairs = matchedPairs.concat(threeMatchedUsers, twoMatchedUsers, oneMatchedUsers, unmatchedPairs);
 
     return {
-        allPairs,
+        allPairs: matchedPairs.concat(finalUnmatchedUsers),
     };
 }
 
@@ -125,6 +96,6 @@ matchUsers()
         console.error('Error:', error);
     });
 
-    module.exports = {
-        matchUsers,
-    };
+module.exports = {
+    matchUsers,
+};

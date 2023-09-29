@@ -1,7 +1,7 @@
 const { expect } = require('chai');
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const fetchUsers = require('./MatchMaker/fetchUsers')
+// const chai = require('chai');
+// const chaiHttp = require('chai-http');
+// const fetchUsers = require('./MatchMaker/fetchUsers')
 const { matchUsers } = require('./MatchMaker/matchMaker')
 
 
