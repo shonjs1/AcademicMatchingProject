@@ -25,7 +25,7 @@ async function findBestMatch(user, users) {
     for (let i = 0; i < users.length; i++) {
         const potentialMatch = users[i];
         
-        if (user === potentialMatch) {
+        if (user === potentialMatch || user.classroom != potentialMatch) {
             continue;
         }
 
