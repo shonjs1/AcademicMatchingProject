@@ -1,32 +1,11 @@
 const mongoose = require('mongoose')
 
-const userSchema = mongoose.Schema({
+const userTestSchema = mongoose.Schema({
     name:{
         type: String,
         required: [true, 'Please enter a name']
     },
-    email:{
-        type: String,
-        required: [true, 'Please enter an email'],
-        unique: true
-    },
-    password:{
-        type: String,
-        required: [true, 'Please enter a password']
-    },
-    username: {
-        type: String,
-        required: true
-    },
-    classroom: {
-        type: String,
-        required: true
-    },
-    photo: {
-        type: String,
-        required: false
-    },
-    Major: {
+    major: {
         type: String,
         required: true
     },
@@ -34,18 +13,27 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    classroom: {
+        type: String,
+        required: true
+    },
     skillLevel: {
         type: String,
         required: true
+    },
+    account: {  // Add a reference to the user's profile
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Account_test',
     },
     matched: {
         type: Boolean,
         default: false,
         required: true
-    },
+    }
 },
 {
     timestamps: true
 })
 
-module.exports = mongoose.model('User' , userSchema)
+module.exports = mongoose.model('User_test' , userTestSchema)
