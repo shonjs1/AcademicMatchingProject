@@ -1,0 +1,31 @@
+const { expect } = require('chai');
+// const chai = require('chai');
+// const chaiHttp = require('chai-http');
+// const fetchUsers = require('./MatchMaker/fetchUsers')
+const { matchUsers } = require('./MatchMaker/matchMaker')
+
+
+describe('matchMaker', () => {
+    it('should match users based on criteria', async () => {
+        
+        const matchedUsers = await matchUsers();
+        expect(matchedUsers.allPairs).to.be.an('array'); 
+    });
+});
+
+// chai.use(chaiHttp);
+// const expect = chai.expect;
+
+// describe('User Controller', () => {
+//     it('should return an array of users, and return 200 status', (done) =>  {
+//         chai
+//         .request('http://localhost:5000')
+//         .get('/api/users')
+//         .end((err, res) => {
+//             expect(res.body).to.be.an('array');
+//             expect(res).to.have.status(200);
+//             console.log(res.body);
+//             done();
+//             });
+//         });
+//     });

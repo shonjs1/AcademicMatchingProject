@@ -19,7 +19,7 @@ router.get('/', getUsers)
 router.post('/', setUser)
 
 router.route('/:id').put(updateUser).delete(deleteUser)
-// router.put('/:id', updateUser)
+router.put('/:id', updateUser)
 router.delete('/:id', deleteUser)
 
 // Add a new route to update the user's classroom
