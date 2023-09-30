@@ -10,7 +10,6 @@ describe('matchMaker', () => {
         
         const matchedUsers = await matchUsers();
         expect(matchedUsers.allPairs).to.be.an('array'); 
-        console.log(matchedUsers);
     });
 });
 

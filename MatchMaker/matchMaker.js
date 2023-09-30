@@ -25,7 +25,7 @@ async function findBestMatch(user, users) {
     for (let i = 0; i < users.length; i++) {
         const potentialMatch = users[i];
         
-        if (user === potentialMatch || user.classroom != potentialMatch) {
+        if (user === potentialMatch || user.matched || potentialMatch.matched) {
             continue;
         }
 
@@ -59,7 +59,15 @@ async function matchUsers() {
     const finalUnmatchedUsers = [];
 
     function addToMatchedPairs(user1, user2, matchingParamsCount) {
-        matchedPairs.push({ user1, user2, matchingParamsCount });
+        const userName1 = user1.name;
+        const userName2 = user2.name;
+        user1.matched = true;
+        user2.matched = true;
+        matchedPairs.push({ user1: userName1, user2: userName2, matchingParamsCount });
+    }
+
+    function addToFinalUnmatchedUsers(user) {
+        finalUnmatchedUsers.push(user);
     }
 
     for (let i = 0; i < users.length; i++) {
@@ -67,9 +75,7 @@ async function matchUsers() {
         const bestMatch = await findBestMatch(user, users);
 
         if (bestMatch) {
-            let matchingParamsCount;
-
-            matchingParamsCount = calculateMatchingParamsCount(user, bestMatch);
+            const matchingParamsCount = calculateMatchingParamsCount(user, bestMatch);
 
             if (matchingParamsCount === 3) {
                 addToMatchedPairs(user, bestMatch, 3);
@@ -80,6 +86,12 @@ async function matchUsers() {
             } else {
                 addToFinalUnmatchedUsers(user);
             }
+        }
+    }
+    for (let i = 0; i < users.length; i++) {
+        const user = users[i];
+        if (!user.matched) {
+            finalUnmatchedUsers.push(user.name);
         }
     }
 
