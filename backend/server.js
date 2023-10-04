@@ -13,6 +13,7 @@ app.use('/api/goals', require('./routes/goalRoutes'))
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/subjects', require('./routes/subjectRoutes'))
 app.use('/api/accounts', require('./routes/accountRoutes'))
+app.use('/api/groups', require('./routes/groupRoutes'))
 app.use(errorHandler)
 
 app.listen(port, () => console.log(`Server started on port ${port}`))

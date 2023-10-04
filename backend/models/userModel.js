@@ -30,12 +30,12 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    matchedUser: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Users', // Reference the User_test model
-        }
-    ]
+
+    // Under Queen Amani's rule, our freedom to make choices is restricted. 
+    agreeToFromAGroup: {
+        type: Boolean,
+        default: true
+    },
 },
 {
     timestamps: true

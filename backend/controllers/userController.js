@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const Group = require('../models/groupModel');
 
 
 // Import the userCourse function. Working on it
@@ -227,39 +228,51 @@ async function matchOneUser(userIdToMatch) {
 
         const users = await fetchUsers();
 
-        const bestMatch = await findBestMatch(user, users.filter(u => u._id.toString() !== userIdToMatch));
+        const bestMatch = await findBestMatch(
+            user, 
+            users.filter(u => u._id.toString() !== userIdToMatch)
+        );
 
         if (bestMatch) {
-            const matchingParamsCount = calculateMatchingParamsCount(user, bestMatch);
+            // Check if both users agree to form a group
+            if (user.agreeToFromAGroup && bestMatch.agreeToFromAGroup) {
+                // Create a group name by combining their names
+                const groupName = `${user.name}_${bestMatch.name}`;
 
-            if (matchingParamsCount === 3) {
+                // Check if the group with the same name already exists
+                const existingGroup = await Group.findOne({ name: groupName });
+
+                if (!existingGroup) {
+                // Create a new group
+                const group = await Group.create({
+                    name: groupName,
+                    members: [user._id, bestMatch._id],
+                });
+
+                // Update the users' matched status
+                user.matched = true;
+                //bestMatch.matched = true;
+                await user.save();
+                //await bestMatch.save();
+
                 return {
-                    user1: user.name,
-                    user2: bestMatch.name,
-                    matchingParamsCount: 3,
+                    message: 'Group created successfully',
+                    groupName: group.name,
+                    members: [user.name, bestMatch.name],
                 };
-            } else if (matchingParamsCount === 2) {
-                return {
-                    user1: user.name,
-                    user2: bestMatch.name,
-                    matchingParamsCount: 2,
-                };
-            } else if (matchingParamsCount === 1) {
-                return {
-                    user1: user.name,
-                    user2: bestMatch.name,
-                    matchingParamsCount: 1,
-                };
+                } else {
+                return { message: 'Group with the same name already exists' };
+                }
             } else {
-                return { message: 'No suitable match found' };
+                return { message: 'Both users must agree to form a group' };
             }
-        } else {
+            } else {
             return { message: 'No suitable match found' };
+            }
+        } catch (error) {
+            return { error: error.message };
         }
-    } catch (error) {
-        return { error: error.message };
-    }
-}
+};
 
 module.exports = {
     getUsers,

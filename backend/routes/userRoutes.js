@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const userController = require('../controllers/userController');
 const { getUsers, setUser, updateUser, deleteUser, updateUserClassroom, matchUsers, matchOneUser  } = require('../controllers/userController')
 
 // USER INFO CRUD 
