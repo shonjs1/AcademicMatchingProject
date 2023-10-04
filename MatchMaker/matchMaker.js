@@ -3,7 +3,7 @@ const fetchUsers = require('./fetchUsers');
 function calculateMatchingParamsCount(user1, user2) {
     let matchingParamsCount = 0;
 
-    if (user1.Major === user2.Major) {
+    if (user1.major === user2.major) {
         matchingParamsCount++;
     }
 
@@ -31,7 +31,7 @@ async function findBestMatch(user, users) {
 
         let matchingParamsCount = 0;
 
-        if (user.Major === potentialMatch.Major) {
+        if (user.major === potentialMatch.major) {
             matchingParamsCount++;
         }
 

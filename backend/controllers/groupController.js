@@ -1,113 +1,59 @@
-const fetchUsers = require('./fetchUsers');
+const asyncHandler = require('express-async-handler')
+const User = require('../models/userModel')
+const Group = require('../models/groupModel')
 
-function calculateMatchingParamsCount(user1, user2) {
-    let matchingParamsCount = 0;
 
-    if (user1.Major === user2.Major) {
-        matchingParamsCount++;
+// Group CRUD API
+const getGroups = asyncHandler(async (req, res) => {
+    const groups = await Group.find({})
+    res.status(200).json(groups)
+});
+
+const setGroup = asyncHandler(async (req, res) => {
+    try {
+        const group = await Group.create(req.body);
+        res.status(201).json(group);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
+});
 
-    if (user1.subject === user2.subject) {
-        matchingParamsCount++;
+const updateGroup = asyncHandler(async (req, res) => {
+    const group = await Group.findById(req.params.id)
+
+    if(!group) {
+        res.status(400)
+        throw new Error('User not found')
     }
-
-    if (user1.skillLevel === user2.skillLevel) {
-        matchingParamsCount++;
-    }
-
-    return matchingParamsCount;
-}
-
-async function findBestMatch(user, users) {
-    let bestMatch = null;
-    let bestMatchingParamsCount = 0;
-
-    for (let i = 0; i < users.length; i++) {
-        const potentialMatch = users[i];
-        
-        if (user === potentialMatch || user.matched || potentialMatch.matched || user.classroom != potentialMatch.classroom) {
-            continue;
-        }
-
-        let matchingParamsCount = 0;
-
-        if (user.Major === potentialMatch.Major) {
-            matchingParamsCount++;
-        }
-
-        if (user.subject === potentialMatch.subject) {
-            matchingParamsCount++;
-        }
-
-        if (user.skillLevel === potentialMatch.skillLevel) {
-            matchingParamsCount++;
-        }
-
-        if (matchingParamsCount > bestMatchingParamsCount) {
-            bestMatch = potentialMatch;
-            bestMatchingParamsCount = matchingParamsCount;
-        }
-    }
-
-    return bestMatch;
-}
-
-async function matchUsers() {
-    const users = await fetchUsers();
-
-    const matchedPairs = [];
-    const finalUnmatchedUsers = [];
-
-    function addToMatchedPairs(user1, user2, matchingParamsCount) {
-        const userName1 = user1.name;
-        const userName2 = user2.name;
-        user1.matched = true;
-        user2.matched = true;
-        matchedPairs.push({ user1: userName1, user2: userName2, matchingParamsCount });
-    }
-
-    function addToFinalUnmatchedUsers(user) {
-        finalUnmatchedUsers.push(user);
-    }
-
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        const bestMatch = await findBestMatch(user, users);
-
-        if (bestMatch) {
-            const matchingParamsCount = calculateMatchingParamsCount(user, bestMatch);
-
-            if (matchingParamsCount === 3) {
-                addToMatchedPairs(user, bestMatch, 3);
-            } else if (matchingParamsCount === 2) {
-                addToMatchedPairs(user, bestMatch, 2);
-            } else if (matchingParamsCount === 1) {
-                addToMatchedPairs(user, bestMatch, 1);
-            } else {
-                addToFinalUnmatchedUsers(user);
-            }
-        }
-    }
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        if (!user.matched) {
-            finalUnmatchedUsers.push(user.name);
-        }
-    }
-
-    return {
-        allPairs: matchedPairs.concat(finalUnmatchedUsers),
-    };
-}
-
-matchUsers()
-    .then(({ allPairs }) => {
-        console.log('All pairs:', allPairs);
+// updatedUser function
+    const updatedGroup = await User.findByIdAndUpdate(req.params.id, req.body,{
+        new : true,
     })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    res.status(200).json(updatedGroup)
+});
+
+const deleteGroup = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id)
+    if(!group) {
+        res.status(400)
+        throw new Error('User not found')
+    }
+
+    //deleteUser function
+    const deletedGroup = await User.findByIdAndDelete(req.params.id, req.body,{
+        new : true,
+    })
+    res.status(200).json(deletedGroup)
+}); 
+
+
+
+
 
 module.exports = {
-    matchUsers,
+    //matchUsers,
+    getGroups,
+    setGroup,
+    updateGroup,
+    deleteGroup
 };

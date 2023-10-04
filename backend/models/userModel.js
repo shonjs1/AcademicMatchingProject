@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const userTestSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     name:{
         type: String,
         required: [true, 'Please enter a name']
@@ -24,16 +24,21 @@ const userTestSchema = mongoose.Schema({
     account: {  // Add a reference to the user's profile
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Account_test',
+        ref: 'Accounts',
     },
     matched: {
         type: Boolean,
-        default: false,
-        required: true
-    }
+        default: false
+    },
+    matchedUser: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Users', // Reference the User_test model
+        }
+    ]
 },
 {
     timestamps: true
 })
 
-module.exports = mongoose.model('User_test' , userTestSchema)
+module.exports = mongoose.model('Users' , userSchema)
