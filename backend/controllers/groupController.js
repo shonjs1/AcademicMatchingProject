@@ -46,8 +46,34 @@ const deleteGroup = asyncHandler(async (req, res) => {
     res.status(200).json(deletedGroup)
 }); 
 
+// function to disband a group
+async function disbandGroup(groupId) {
+    try {
+      // Find the group by its ID
+        const group = await Group.findOneAndDelete({ _id: groupId });
 
+        if (!group) {
+            return { error: 'Group not found' };
+        }
 
+        // Retrieve the members of the group
+        const members = group.members;
+
+        // Update the `matched` field of each member to `false`
+        for (const memberId of members) {
+        const user = await User.findById(memberId);
+
+            if (user) {
+            user.matched = false;
+            await user.save();
+            }
+        }
+
+        return { message: 'Group disbanded successfully' };
+    } catch (error) {
+        return { error: error.message };
+    }
+};
 
 
 module.exports = {
@@ -55,5 +81,6 @@ module.exports = {
     getGroups,
     setGroup,
     updateGroup,
-    deleteGroup
+    deleteGroup,
+    disbandGroup,
 };

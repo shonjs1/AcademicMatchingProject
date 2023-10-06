@@ -162,53 +162,54 @@ async function findBestMatch(user, users) {
     return bestMatch;
 }
 
-async function matchUsers() {
-    const users = await fetchUsers();
+// match all users
+// async function matchUsers() {
+//     const users = await fetchUsers();
 
-    const matchedPairs = [];
-    const finalUnmatchedUsers = [];
+//     const matchedPairs = [];
+//     const finalUnmatchedUsers = [];
 
-    function addToMatchedPairs(user1, user2, matchingParamsCount) {
-        const userName1 = user1.name;
-        const userName2 = user2.name;
-        user1.matched = true;
-        user2.matched = true;
-        matchedPairs.push({ user1: userName1, user2: userName2, matchingParamsCount });
-    }
+//     function addToMatchedPairs(user1, user2, matchingParamsCount) {
+//         const userName1 = user1.name;
+//         const userName2 = user2.name;
+//         user1.matched = true;
+//         user2.matched = true;
+//         matchedPairs.push({ user1: userName1, user2: userName2, matchingParamsCount });
+//     }
 
-    function addToFinalUnmatchedUsers(user) {
-        finalUnmatchedUsers.push(user);
-    }
+//     function addToFinalUnmatchedUsers(user) {
+//         finalUnmatchedUsers.push(user);
+//     }
 
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        const bestMatch = await findBestMatch(user, users);
+//     for (let i = 0; i < users.length; i++) {
+//         const user = users[i];
+//         const bestMatch = await findBestMatch(user, users);
 
-        if (bestMatch) {
-            const matchingParamsCount = calculateMatchingParamsCount(user, bestMatch);
+//         if (bestMatch) {
+//             const matchingParamsCount = calculateMatchingParamsCount(user, bestMatch);
 
-            if (matchingParamsCount === 3) {
-                addToMatchedPairs(user, bestMatch, 3);
-            } else if (matchingParamsCount === 2) {
-                addToMatchedPairs(user, bestMatch, 2);
-            } else if (matchingParamsCount === 1) {
-                addToMatchedPairs(user, bestMatch, 1);
-            } else {
-                addToFinalUnmatchedUsers(user);
-            }
-        }
-    }
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        if (!user.matched) {
-            finalUnmatchedUsers.push(user.name);
-        }
-    }
+//             if (matchingParamsCount === 3) {
+//                 addToMatchedPairs(user, bestMatch, 3);
+//             } else if (matchingParamsCount === 2) {
+//                 addToMatchedPairs(user, bestMatch, 2);
+//             } else if (matchingParamsCount === 1) {
+//                 addToMatchedPairs(user, bestMatch, 1);
+//             } else {
+//                 addToFinalUnmatchedUsers(user);
+//             }
+//         }
+//     }
+//     for (let i = 0; i < users.length; i++) {
+//         const user = users[i];
+//         if (!user.matched) {
+//             finalUnmatchedUsers.push(user.name);
+//         }
+//     }
 
-    return {
-        allPairs: matchedPairs.concat(finalUnmatchedUsers),
-    };
-}
+//     return {
+//         allPairs: matchedPairs.concat(finalUnmatchedUsers),
+//     };
+// }
 
 // matchUsers()
 //     .then(({ allPairs }) => {
@@ -235,7 +236,7 @@ async function matchOneUser(userIdToMatch) {
 
         if (bestMatch) {
             // Check if both users agree to form a group
-            if (user.agreeToFromAGroup && bestMatch.agreeToFromAGroup) {
+            if (user.agreeToFormAGroup && bestMatch.agreeToFormAGroup) {
                 // Create a group name by combining their names
                 const groupName = `${user.name}_${bestMatch.name}`;
 
@@ -266,13 +267,14 @@ async function matchOneUser(userIdToMatch) {
             } else {
                 return { message: 'Both users must agree to form a group' };
             }
-            } else {
-            return { message: 'No suitable match found' };
-            }
-        } catch (error) {
-            return { error: error.message };
+        } else {
+            return { message: 'No suitable match found or User is already found a match' };
         }
+    } catch (error) {
+            return { error: error.message };
+    }
 };
+
 
 module.exports = {
     getUsers,
@@ -280,6 +282,5 @@ module.exports = {
     updateUser,
     deleteUser,
     updateUserClassroom,
-    matchUsers,
     matchOneUser,
 }

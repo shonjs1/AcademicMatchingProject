@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getUsers, setUser, updateUser, deleteUser, updateUserClassroom, matchUsers, matchOneUser  } = require('../controllers/userController')
+const { getUsers, setUser, updateUser, deleteUser, updateUserClassroom, matchOneUser } = require('../controllers/userController')
 
 // USER INFO CRUD 
 router.route('/').get(getUsers).post(setUser)
@@ -31,21 +31,24 @@ router.post('/:id/match-one-user', async (req, res) => {
     }
 });
 
-router.post('/match-all-users', async (req, res) => {
-    try {
-        console.log('Before calling matchUsers');
-        
-        // Call the matchUsers function from userController.js
-        const result = await matchUsers();
-        
-        console.log('Succeeded calling matchUsers');
 
-        // Handle the result and send a response
-        res.status(200).json(result);
-    } catch (error) {
-        // Handle errors and send an error response
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
+// Find matched users for all users in database
+// router.post('/match-all-users', async (req, res) => {
+//     try {
+//         console.log('Before calling matchUsers');
+        
+//         // Call the matchUsers function from userController.js
+//         const result = await matchUsers();
+        
+//         console.log('Succeeded calling matchUsers');
+
+//         // Handle the result and send a response
+//         res.status(200).json(result);
+//     } catch (error) {
+//         // Handle errors and send an error response
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// });
+
 
 module.exports = router

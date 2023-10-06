@@ -31,8 +31,9 @@ const userSchema = mongoose.Schema({
         default: false
     },
 
-    // Under Queen Amani's rule, our freedom to make choices is restricted. 
-    agreeToFromAGroup: {
+    // this doesn't work for now
+    // Because under Queen Amani's rule, our freedom to make choices is restricted.  
+    agreeToFormAGroup: {
         type: Boolean,
         default: true
     },
