@@ -1,94 +1,10 @@
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const asyncHandler = require('express-async-handler')
-const User = require('../models/userModel')
+const asyncHandler = require('express-async-handler');
+const User = require('../models/userModel');
+const Group = require('../models/groupModel');
+
+
 // Import the userCourse function. Working on it
 // const userCourse = require('../path-to-userCourse');
-// @desc Register New User 
-// @route POST / api/users 
-// @access Public 
-const registerUser = asyncHandler(async (req, res) => {
-    const {name, email, password} = req.body 
-    if(!name || !email || !password) {
-        res.status(400)
-        throw new Error('Please add all fields')
-    }
-
-    //Checks user existence 
-    const userExists = await User.findOne({email})
-
-    if(userExists){
-        res.status(400)
-        throw new Error('User already exists')
-    }
-
-    // Hash password
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
-
-    // Create User
-    const user = await User.create({
-        name,
-        email,
-        password: hashedPassword
-    })
-
-    if (user) {
-        res.status(201).json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            token: generateToken(user._id)
-        })
-    } else{
-        res.status(400)
-        throw new Error('Invalid user data')
-    }
-
-})
-
-// @desc Authenticate a User 
-// @route POST / api/users/login
-// @access Public 
-const loginUser = asyncHandler(async (req, res) => {
-    const {email, password} = req.body
-
-    // check for user email
-    const user = await User.findOne({email})
-
-    if(user && (await bcrypt.compare(password, user.password))) {
-    res.json( { 
-        _id: user.id,
-        name: user.name,
-        email: user.email,
-        token: generateToken(user._id)
-        })
-    } else {
-        res.status(400)
-        throw new Error('Invalid Credentials')
-    }
-    res.json({ message: 'Login User' })
-})
-
-// @desc Get user data
-// @route GET / api/users/me
-// @access Private 
-const getMe = asyncHandler(async (req, res) => {
-    const {_id, name, email} = await User.findById(req.user.id)
-
-    res.status(200).json({
-        id: _id,
-        name, 
-        email,
-    })
-})
-
-//Generate JWT
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '30d',
-    })
-}
 
 // USERS CRUD API
 const getUsers = asyncHandler(async (req, res) => {
@@ -160,7 +76,7 @@ const updateUserClassroom = asyncHandler(async (req, res) => {
       // const courseName = userClassroom();
 
       // Update the user's Classroom with the course name
-      // Update the name tho Math 101 for now
+      // Update the name to Math 101 for now
         user.classroom = "Math 101";
 
       // Save the updated user object
@@ -172,13 +88,199 @@ const updateUserClassroom = asyncHandler(async (req, res) => {
     }
 });
 
+
+
+// TOP SECRET ALGORITHM !!! DO NOT SHARE !!!
+
+const fetchUsers = async () => {
+    try {
+        const response = await fetch("http://localhost:5000/api/users");
+
+        if (response.ok) {
+            const data = await response.json();
+
+            return data;
+        } else {
+            console.log("Not Successful");
+            return null;
+        }
+    } catch (error) {
+        console.error("ERROR:", error);
+        throw error;
+    }
+};
+
+function calculateMatchingParamsCount(user1, user2) {
+    let matchingParamsCount = 0;
+
+    if (user1.major === user2.major) {
+        matchingParamsCount++;
+    }
+
+    if (user1.subject === user2.subject) {
+        matchingParamsCount++;
+    }
+
+    if (user1.skillLevel === user2.skillLevel) {
+        matchingParamsCount++;
+    }
+
+    return matchingParamsCount;
+}
+
+async function findBestMatch(user, users) {
+    let bestMatch = null;
+    let bestMatchingParamsCount = 0;
+
+    for (let i = 0; i < users.length; i++) {
+        const potentialMatch = users[i];
+        
+        if (user === potentialMatch || user.matched || potentialMatch.matched || user.classroom != potentialMatch.classroom) {
+            continue;
+        }
+
+        let matchingParamsCount = 0;
+
+        if (user.major === potentialMatch.major) {
+            matchingParamsCount++;
+        }
+
+        if (user.subject === potentialMatch.subject) {
+            matchingParamsCount++;
+        }
+
+        if (user.skillLevel === potentialMatch.skillLevel) {
+            matchingParamsCount++;
+        }
+
+        if (matchingParamsCount > bestMatchingParamsCount) {
+            bestMatch = potentialMatch;
+            bestMatchingParamsCount = matchingParamsCount;
+        }
+    }
+
+    return bestMatch;
+}
+
+// match all users
+// async function matchUsers() {
+//     const users = await fetchUsers();
+
+//     const matchedPairs = [];
+//     const finalUnmatchedUsers = [];
+
+//     function addToMatchedPairs(user1, user2, matchingParamsCount) {
+//         const userName1 = user1.name;
+//         const userName2 = user2.name;
+//         user1.matched = true;
+//         user2.matched = true;
+//         matchedPairs.push({ user1: userName1, user2: userName2, matchingParamsCount });
+//     }
+
+//     function addToFinalUnmatchedUsers(user) {
+//         finalUnmatchedUsers.push(user);
+//     }
+
+//     for (let i = 0; i < users.length; i++) {
+//         const user = users[i];
+//         const bestMatch = await findBestMatch(user, users);
+
+//         if (bestMatch) {
+//             const matchingParamsCount = calculateMatchingParamsCount(user, bestMatch);
+
+//             if (matchingParamsCount === 3) {
+//                 addToMatchedPairs(user, bestMatch, 3);
+//             } else if (matchingParamsCount === 2) {
+//                 addToMatchedPairs(user, bestMatch, 2);
+//             } else if (matchingParamsCount === 1) {
+//                 addToMatchedPairs(user, bestMatch, 1);
+//             } else {
+//                 addToFinalUnmatchedUsers(user);
+//             }
+//         }
+//     }
+//     for (let i = 0; i < users.length; i++) {
+//         const user = users[i];
+//         if (!user.matched) {
+//             finalUnmatchedUsers.push(user.name);
+//         }
+//     }
+
+//     return {
+//         allPairs: matchedPairs.concat(finalUnmatchedUsers),
+//     };
+// }
+
+// matchUsers()
+//     .then(({ allPairs }) => {
+//         console.log('All pairs:', allPairs);
+//     })
+//     .catch((error) => {
+//         console.error('Error:', error);
+//     });
+
+async function matchOneUser(userIdToMatch) {
+    try {
+        const user = await User.findById(userIdToMatch);
+
+        if (!user) {
+            return { error: 'User not found' };
+        }
+
+        const users = await fetchUsers();
+
+        const bestMatch = await findBestMatch(
+            user, 
+            users.filter(u => u._id.toString() !== userIdToMatch)
+        );
+
+        if (bestMatch) {
+            // Check if both users agree to form a group
+            if (user.agreeToFormAGroup && bestMatch.agreeToFormAGroup) {
+                // Create a group name by combining their names
+                const groupName = `${user.name}_${bestMatch.name}`;
+
+                // Check if the group with the same name already exists
+                const existingGroup = await Group.findOne({ name: groupName });
+
+                if (!existingGroup) {
+                // Create a new group
+                const group = await Group.create({
+                    name: groupName,
+                    members: [user._id, bestMatch._id],
+                });
+
+                // Update the users' matched status
+                user.matched = true;
+                //bestMatch.matched = true;
+                await user.save();
+                //await bestMatch.save();
+
+                return {
+                    message: 'Group created successfully',
+                    groupName: group.name,
+                    members: [user.name, bestMatch.name],
+                };
+                } else {
+                return { message: 'Group with the same name already exists' };
+                }
+            } else {
+                return { message: 'Both users must agree to form a group' };
+            }
+        } else {
+            return { message: 'No suitable match found or User is already found a match' };
+        }
+    } catch (error) {
+            return { error: error.message };
+    }
+};
+
+
 module.exports = {
     getUsers,
     setUser,
     updateUser,
     deleteUser,
-    registerUser,
-    loginUser,
-    getMe,
     updateUserClassroom,
+    matchOneUser,
 }
