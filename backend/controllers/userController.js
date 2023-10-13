@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const Group = require('../models/groupModel');
+const fetchUsers = require('../MatchMaker/fetchUsers');
+
 
 
 // Import the userCourse function. Working on it
@@ -92,23 +94,23 @@ const updateUserClassroom = asyncHandler(async (req, res) => {
 
 // TOP SECRET ALGORITHM !!! DO NOT SHARE !!!
 
-const fetchUsers = async () => {
-    try {
-        const response = await fetch("http://localhost:5000/api/users");
+// const fetchUsers = async () => {
+//     try {
+//         const response = await fetch("http://localhost:5000/api/users");
 
-        if (response.ok) {
-            const data = await response.json();
+//         if (response.ok) {
+//             const data = await response.json();
 
-            return data;
-        } else {
-            console.log("Not Successful");
-            return null;
-        }
-    } catch (error) {
-        console.error("ERROR:", error);
-        throw error;
-    }
-};
+//             return data;
+//         } else {
+//             console.log("Not Successful");
+//             return null;
+//         }
+//     } catch (error) {
+//         console.error("ERROR:", error);
+//         throw error;
+//     }
+// };
 
 function calculateMatchingParamsCount(user1, user2) {
     let matchingParamsCount = 0;
