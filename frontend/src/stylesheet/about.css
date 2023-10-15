@@ -1,0 +1,47 @@
+/* about.css */
+
+.container {
+    padding: 50px;
+   margin-left: 20%;
+  }
+  
+  .about-card {
+    border: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+  }
+  
+  .motto {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .motto h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+  
+  .motto p {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .motto ol {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .motto li {
+    margin-bottom: 30px;
+  }
+  
+  .motto h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .motto ol p {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #555;
+  }
+  
