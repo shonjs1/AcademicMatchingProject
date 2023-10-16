@@ -1,45 +1,66 @@
-const express = require('express')
-const router = express.Router()
-const { getUsers, setUser, updateUser, deleteUser, updateUserClassroom, matchOneUser } = require('../controllers/userController')
+const express = require("express");
+const router = express.Router();
+const {
+  getUsers,
+  setUser,
+  updateUser,
+  deleteUser,
+  updateUserClassroom,
+  matchOneUser,
+} = require("../controllers/userController");
+const User = require('../models/userModel');
 
-// USER INFO CRUD 
-router.route('/').get(getUsers).post(setUser)
-// router.get('/', getUsers)
-// router.post('/', setUser)
+// USER INFO CRUD
+router.route("/").get(getUsers).post(setUser);
 
-router.route('/:id').put(updateUser).delete(deleteUser)
-// router.put('/:id', updateUser)
-// router.delete('/:id', deleteUser)
+router.route("/:id").put(updateUser).delete(deleteUser);
 
 // Add a new route to update the user's classroom
-router.put('/:id/update-classroom', updateUserClassroom)
+router.put("/:id/update-classroom", updateUserClassroom);
 
 // Find matched user to current user's id
-router.post('/:id/match-one-user', async (req, res) => {
-    const userIdToMatch = req.params.id; // Get the user ID from the URL
+router.post("/:id/match-one-user", async (req, res) => {
+  const userIdToMatch = req.params.id; // Get the user ID from the URL
 
-    try {
-        console.log('Before calling matchOneUser');
-        const result = await matchOneUser(userIdToMatch);
-        console.log('Succeed calling matchOneUser');
+  try {
+    console.log("Before calling matchOneUser");
+    const result = await matchOneUser(userIdToMatch);
+    console.log("Succeed calling matchOneUser");
 
-        // Handle the result and send a response
-        res.status(200).json(result);
-    } catch (error) {
-        // Handle errors and send an error response
-        res.status(500).json({ error: 'Internal server error' });
-    }
+    // Handle the result and send a response
+    res.status(200).json(result);
+  } catch (error) {
+    // Handle errors and send an error response
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
+//get user by id
+router.get('/:id/profile', async (req, res) => {
+    const userId = req.params.id;
+  
+    try {
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      return res.status(200).json(user);
+    } catch (error) {
+      console.error('Error fetching user by ID:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 // Find matched users for all users in database
 // router.post('/match-all-users', async (req, res) => {
 //     try {
 //         console.log('Before calling matchUsers');
-        
+
 //         // Call the matchUsers function from userController.js
 //         const result = await matchUsers();
-        
+
 //         console.log('Succeeded calling matchUsers');
 
 //         // Handle the result and send a response
@@ -50,5 +71,4 @@ router.post('/:id/match-one-user', async (req, res) => {
 //     }
 // });
 
-
-module.exports = router
+module.exports = router;

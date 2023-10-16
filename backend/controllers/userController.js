@@ -110,23 +110,24 @@ const fetchUsers = async () => {
     }
 };
 
-function calculateMatchingParamsCount(user1, user2) {
-    let matchingParamsCount = 0;
+// in review to delete
+// function calculateMatchingParamsCount(user1, user2) {
+//     let matchingParamsCount = 0;
 
-    if (user1.major === user2.major) {
-        matchingParamsCount++;
-    }
+//     if (user1.major === user2.major) {
+//         matchingParamsCount++;
+//     }
 
-    if (user1.subject === user2.subject) {
-        matchingParamsCount++;
-    }
+//     if (user1.subject === user2.subject) {
+//         matchingParamsCount++;
+//     }
 
-    if (user1.skillLevel === user2.skillLevel) {
-        matchingParamsCount++;
-    }
+//     if (user1.skillLevel === user2.skillLevel) {
+//         matchingParamsCount++;
+//     }
 
-    return matchingParamsCount;
-}
+//     return matchingParamsCount;
+// }
 
 async function findBestMatch(user, users) {
     let bestMatch = null;
