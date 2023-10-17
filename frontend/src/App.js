@@ -28,7 +28,7 @@ function App() {
   };
 
   
-   const openRegister = () => {
+  const openRegister = () => {
     setRegisterVisible(true);
   };
 
@@ -48,7 +48,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/user" element={<User />} />
         </Routes>
-       
+      
       </BrowserRouter>
       <Footer />
 
