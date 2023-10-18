@@ -1,85 +1,170 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import "../stylesheet/user.css";
-import {  Button } from 'react-bootstrap';
-const books = process.env.PUBLIC_URL + '/images/books.jpeg'
-const profile = process.env.PUBLIC_URL + '/images/joy.jpeg'
 
 export default function Profile() {
-  const [subjects, setSubjects] = useState([]);
-  const [selectedSubject, setSelectedSubject] = useState('');
-  const [courses, setCourses] = useState([]);
-  const [subjectName, setSubjectName] = useState('');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Fetch the list of subjects from the backend API.
-    fetchSubjects();
+    // Fetch user information from the backend here.
+    fetchUserData();
   }, []);
 
-  const fetchSubjects = async () => {
+  const fetchUserData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/subjects");
+      const response = await fetch("http://localhost:5000/api/users/6519bfb3ae3f3e47b9ca5130/profile"); 
       if (!response.ok) {
-        throw new Error('Failed to fetch subjects');
+        throw new Error("Failed to fetch user data");
       }
       const data = await response.json();
-      setSubjects(data);
+      setUser(data);
     } catch (error) {
-      console.error('Error fetching subjects: ', error);
-    }
-  };
-
-  const handleSubjectChange = (event) => {
-    const selectedSubjectId = event.target.value;
-    setSelectedSubject(selectedSubjectId);
-
-    // Fetch the list of courses for the selected subject.
-    fetchCourses(selectedSubjectId);
-    
-    // Find and set the subject name based on the selected subject's ID.
-    const selectedSubjectData = subjects.find((subject) => subject._id === selectedSubjectId);
-    if (selectedSubjectData) {
-      setSubjectName(selectedSubjectData.name);
-    }
-  };
-
-  const fetchCourses = async (selectedSubjectId) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/subjects/${selectedSubjectId}/courses`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch courses');
-      }
-      const data = await response.json();
-      setCourses(data);
-    } catch (error) {
-      console.error('Error fetching courses: ', error);
+      console.error("Error fetching user data: ", error);
     }
   };
 
   return (
-    <div>
-      <h1>User Profile</h1>
-      <div className="user-profile">
-        {/* ...other components */}
-        <select value={selectedSubject} onChange={handleSubjectChange}>
-          <option value="">Select a subject</option>
-          {subjects.map((subject) => (
-            <option key={subject._id} value={subject._id}>
-              {subject.name}
-            </option>
-          ))}
-        </select>
-        <h2>Selected Subject: {subjectName}</h2>
-        <h2>Select a Course:</h2>
-        <select>
-          <option value="">Select a course</option>
-          {courses.map((course) => (
-            <option key={course._id} value={course._id}>
-              {course.name}
-            </option>
-          ))}
-        </select>
+    <div className="container">
+      <div className="main-body">
+        <div className="row gutters-sm">
+          <div className="col-md-4 mb-3">
+            <div className="card">
+              <div className="card-body">
+                <div className="d-flex flex-column align-items-center text-center">
+                  <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
+                  <div className="mt-3">
+                    <h4></h4>
+                    <p className="text-secondary mb-1"></p>
+                    <p className="text-muted font-size-sm"></p>
+                    <button className="btn btn-outline-primary">Message</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card mt-3">
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 className="mb-0">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      className="feather feather-globe mr-2 icon-inline"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="2" y1="12" x2="22" y2="12" />
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                    Website
+                  </h6>
+                  <span className="text-secondary"></span>
+                </li>
+                {/* Add the rest of the list items here (GitHub, Twitter, Instagram, Facebook) */}
+              </ul>
+            </div>
+          </div>
+          <div className="col-md-8">
+            <div className="card mb-3">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Name</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    {user ? user.name : 'Loading...'}
+                  </div>
+                </div>
+
+                <hr />
+
+                <div className="row">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Major</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    {user ? user.major : 'Loading...'}
+                  </div>
+                </div>
+
+                <hr />
+
+                <div className="row">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Subject</h6>
+                  </div>
+                  <div className="dropdown col-sm-9 text-secondary">
+                    <div className="">
+                      <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {user ? user.major : 'Loading...'}
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li><button className="dropdown-item" type="button">{user ? user.subject : 'Loading...'}</button></li>
+                        <li><button className="dropdown-item" type="button">Another action</button></li>
+                        <li><button className="dropdown-item" type="button">Something else here</button></li>
+                      </ul>
+                      </div>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div className="row">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Course</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    {user ? user.classroom : 'Loading...'}
+                  </div>
+                </div>
+
+                <hr />
+
+                <div className="row">
+                  <div className="col-sm-12">
+                    <a className="btn btn-info" target="__blank" href="">
+                      Edit
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div className="row gutters-sm">
+              <div className="col-sm-6 mb-3">
+                <div className="card h-100">
+                  <div className="card-body">
+                    <h6 className="d-flex align-items-center mb-3">
+                      <i className="material-icons text-info mr-2">assignment</i>Project Status
+                    </h6>
+                    <small>Web Design</small>
+                    <div className="progress mb-3" style={{ height: '5px' }}>
+                      <div className="progress-bar bg-primary" role="progressbar" style={{ width: '80%' }} aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    {/* Add the rest of the project status information here */}
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-6 mb-3">
+                <div className="card h-100">
+                  <div className="card-body">
+                    <h6 className="d-flex align-items-center mb-3">
+                      <i className="material-icons text-info mr-2">assignment</i>Project Status
+                    </h6>
+                    {/* Add project status information here (similar to the previous card) */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <Button variant="primary">Save</Button>
     </div>
   );
 }
+
