@@ -4,30 +4,79 @@ import "../stylesheet/user.css";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
+  const [userID, setUserID] = useState(null);
+
+  // we can make a function to get this accountID from login page. For now, we use this dummy one
+  const accountID = `6514900e19b4d1c3272b3fb0`;
+  
 
   useEffect(() => {
-    // Fetch user information from the backend here.
-    fetchUserData();
-  }, []);
+    // Fetch user ID based on the account ID
+    fetchUserID();
+  }, [accountID]);
 
-  const fetchUserData = async () => {
+  
+
+  const fetchUserID = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/6519bfb3ae3f3e47b9ca5130/profile"); 
+      const response = await fetch(`http://localhost:5000/api/users/userID/${accountID}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+
+      const data = await response.json();
+      // Assuming the response contains a 'userID' property
+      const fetchedUserID = data.userID;
+      setUserID(fetchedUserID);
+
+      // Now that you have the userID, you can fetch the user's profile using that ID
+      fetchUserData(fetchedUserID);
+    } catch (error) {
+      console.error("Error fetching user ID: ", error);
+    }
+  };
+
+  // function from MongooseDB
+  const isValidObjectId = (str) => {
+    // Regular expression to check if str is a valid ObjectId
+    const objectIdPattern = /^[0-9a-fA-F]{24}$/;
+    return objectIdPattern.test(str);
+  };
+
+  const fetchUserData = async (userID) => {
+    try {
+      // Ensure userID is a valid ObjectId before making the request
+      if (!isValidObjectId(userID)) {
+        throw new Error("Invalid user ID");
+      }
+  
+      const response = await fetch(`http://localhost:5000/api/users/${userID}/profile`);
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
       const data = await response.json();
-      setUser(data);
+      
+      // Handle the case when the user is not found
+      if (data.error && data.error === "User not found") {
+        console.error("User not found");
+        // Handle accordingly, e.g., set user to null or display a message.
+        setUser(null);
+      } else {
+        setUser(data);
+      }
     } catch (error) {
       console.error("Error fetching user data: ", error);
     }
   };
 
   return (
+    
     <div className="container">
       <div className="main-body">
         <div className="row gutters-sm">
           <div className="col-md-4 mb-3">
+
             <div className="card">
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center text-center">
@@ -36,11 +85,12 @@ export default function Profile() {
                     <h4></h4>
                     <p className="text-secondary mb-1"></p>
                     <p className="text-muted font-size-sm"></p>
-                    <button className="btn btn-outline-primary">Message</button>
+                    
                   </div>
                 </div>
               </div>
             </div>
+
             <div className="card mt-3">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -64,10 +114,11 @@ export default function Profile() {
                     Website
                   </h6>
                   <span className="text-secondary"></span>
-                </li>
+                </li>                
                 {/* Add the rest of the list items here (GitHub, Twitter, Instagram, Facebook) */}
               </ul>
             </div>
+
           </div>
           <div className="col-md-8">
             <div className="card mb-3">
@@ -99,16 +150,9 @@ export default function Profile() {
                     <h6 className="mb-0">Subject</h6>
                   </div>
                   <div className="dropdown col-sm-9 text-secondary">
-                    <div className="">
-                      <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {user ? user.major : 'Loading...'}
-                      </button>
-                      <ul className="dropdown-menu">
-                        <li><button className="dropdown-item" type="button">{user ? user.subject : 'Loading...'}</button></li>
-                        <li><button className="dropdown-item" type="button">Another action</button></li>
-                        <li><button className="dropdown-item" type="button">Something else here</button></li>
-                      </ul>
-                      </div>
+                    <div className="col-sm-9 text-secondary">
+                      {user ? user.subject : 'Loading...'}
+                    </div>
                   </div>
                 </div>
 
@@ -133,32 +177,6 @@ export default function Profile() {
                   </div>
                 </div>
 
-              </div>
-            </div>
-            <div className="row gutters-sm">
-              <div className="col-sm-6 mb-3">
-                <div className="card h-100">
-                  <div className="card-body">
-                    <h6 className="d-flex align-items-center mb-3">
-                      <i className="material-icons text-info mr-2">assignment</i>Project Status
-                    </h6>
-                    <small>Web Design</small>
-                    <div className="progress mb-3" style={{ height: '5px' }}>
-                      <div className="progress-bar bg-primary" role="progressbar" style={{ width: '80%' }} aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    {/* Add the rest of the project status information here */}
-                  </div>
-                </div>
-              </div>
-              <div className="col-sm-6 mb-3">
-                <div className="card h-100">
-                  <div className="card-body">
-                    <h6 className="d-flex align-items-center mb-3">
-                      <i className="material-icons text-info mr-2">assignment</i>Project Status
-                    </h6>
-                    {/* Add project status information here (similar to the previous card) */}
-                  </div>
-                </div>
               </div>
             </div>
           </div>

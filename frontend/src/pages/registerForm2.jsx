@@ -110,6 +110,9 @@ export default function UserProfile({ onClose }) {
             </div>
           </form>
         </div>
+
+        <hr/>
+        
         <div className="user-profile">
           <h1>User Profile</h1>
           <select value={selectedSubject} onChange={handleSubjectChange}>

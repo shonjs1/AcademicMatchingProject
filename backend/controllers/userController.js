@@ -48,6 +48,7 @@ const updateUser = asyncHandler(async (req, res) => {
     res.status(200).json(updatedUser)
 });
 
+// deleteUser function
 const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
     if(!user) {
@@ -62,6 +63,8 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(200).json(deletedUser)
 });
 
+
+//NOT USE
 // Function to update user's classroom with the result of Math 101, for now, in future by a function userClassroom() 
 const updateUserClassroom = asyncHandler(async (req, res) => {
     try {

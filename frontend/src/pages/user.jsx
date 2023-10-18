@@ -15,7 +15,7 @@ export default function User() {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/6519bfb3ae3f3e47b9ca5130/profile"); 
+      const response = await fetch("http://localhost:5000/api/users/6530215adde1554f45d25b73/profile"); 
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }

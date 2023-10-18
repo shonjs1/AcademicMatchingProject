@@ -37,10 +37,10 @@ router.post("/:id/match-one-user", async (req, res) => {
 
 //get user by id
 router.get('/:id/profile', async (req, res) => {
-    const userId = req.params.id;
+    const userID = req.params.id;
   
     try {
-      const user = await User.findById(userId);
+      const user = await User.findById(userID);
   
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
@@ -52,6 +52,42 @@ router.get('/:id/profile', async (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  // get user data based on the account ID
+  router.get('/:accountID', async (req, res) => {
+    const accountID = req.params.accountID;
+  
+    try {
+      const user = await User.findOne({ account: accountID });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      return res.status(200).json(user);
+    } catch (error) {
+      console.error('Error fetching user by account ID:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+  // get userID based on accountID
+router.get('/userID/:accountID', async (req, res) => {
+  const accountID = req.params.accountID;
+
+  try {
+    const user = await User.findOne({ account: accountID });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    return res.status(200).json({ userID: user._id });
+  } catch (error) {
+    console.error('Error fetching userID by account ID:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Find matched users for all users in database
 // router.post('/match-all-users', async (req, res) => {
