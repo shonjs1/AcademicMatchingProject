@@ -9,7 +9,7 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedUserData, setEditedUserData] = useState({
     major: "",
-    subject: "", // Add subject and classroom with initial values
+    subject: "",
     classroom: "",
     skillLevel: "",
   });
@@ -53,6 +53,7 @@ export default function Profile() {
     }
   }, [editedUserData.subject]);
 
+  // Fetch the user ID based on the account ID
   const fetchUserID = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/users/userID/${accountID}`);
@@ -154,6 +155,7 @@ export default function Profile() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+
           major: editedUserData.major,
           subject: subject ? subject.name : "",
           classroom: classroom ? classroom.name : "",
@@ -181,6 +183,7 @@ export default function Profile() {
     if (!isEditing) {
       // If entering edit mode, copy the current data to the editing fields
       setEditedUserData({
+
         major: user ? user.major : "",
         subject: user ? user.subject : "",
         classroom: user ? user.classroom : "",
@@ -200,7 +203,7 @@ export default function Profile() {
                 <div className="d-flex flex-column align-items-center text-center">
                   <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
                   <div className="mt-3">
-                    <h4></h4>
+                    <h4>{user ? user.name : 'Loading...'}</h4>
                     <p className="text-secondary mb-1"></p>
                     <p className="text-muted font-size-sm"></p>
                   </div>
@@ -244,7 +247,8 @@ export default function Profile() {
                     <h6 className="mb-0">Name</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    {user ? user.name : 'Loading...'}
+                    
+                      {user ? user.name : 'Loading...'}
                   </div>
                 </div>
 

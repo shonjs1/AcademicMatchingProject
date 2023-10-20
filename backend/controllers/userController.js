@@ -46,6 +46,8 @@ const updateUser = asyncHandler(async (req, res) => {
         return;
     }
 
+    // // Update user's name
+    // user.name = userData.name;
     // Update user's major
     user.major = userData.major;
     // Update user's skill level
@@ -82,32 +84,6 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.status(200).json(deletedUser);
 });
 
-//NOT USE
-// Function to update user's classroom with the result of Math 101, for now, in future by a function userClassroom()
-const updateUserClassroom = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-
-    if (!user) {
-      res.status(400);
-      throw new Error("User not found");
-    }
-
-    // Call the userCourse function to get the course name
-    // const courseName = userClassroom();
-
-    // Update the user's Classroom with the course name
-    // Update the name to Math 101 for now
-    user.classroom = "Math 101";
-
-    // Save the updated user object
-    await user.save();
-
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
 
 // TOP SECRET ALGORITHM !!! DO NOT SHARE !!!
 
