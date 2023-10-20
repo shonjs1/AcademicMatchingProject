@@ -8,6 +8,7 @@ export default function Profile() {
   const [userID, setUserID] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedUserData, setEditedUserData] = useState({
+    name: "",
     major: "",
     subject: "",
     classroom: "",
@@ -87,9 +88,10 @@ export default function Profile() {
       if (data.error && data.error === "User not found") {
         setUser(null);
       } else {
-        const { major, subject, classroom, skillLevel } = data;
+        const { name, major, subject, classroom, skillLevel } = data;
         setUser(data);
         setEditedUserData({
+          name,
           major,
           subject,
           classroom,
@@ -155,8 +157,9 @@ export default function Profile() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-
+          name: editedUserData.name,
           major: editedUserData.major,
+          // this part keep subject and course show up as id
           subject: subject ? subject.name : "",
           classroom: classroom ? classroom.name : "",
           skillLevel: editedUserData.skillLevel,
@@ -183,7 +186,7 @@ export default function Profile() {
     if (!isEditing) {
       // If entering edit mode, copy the current data to the editing fields
       setEditedUserData({
-
+        name: user ? user.name : "",
         major: user ? user.major : "",
         subject: user ? user.subject : "",
         classroom: user ? user.classroom : "",
@@ -247,8 +250,18 @@ export default function Profile() {
                     <h6 className="mb-0">Name</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    
-                      {user ? user.name : 'Loading...'}
+                    {isEditing ? (
+                      <Form.Control
+                        type="text"
+                        value={editedUserData.name}
+                        onChange={(e) =>
+                        setEditedUserData({ 
+                          ...editedUserData,
+                          name: e.target.value })}
+                      />
+                    ) : (
+                      user ? user.name : 'Loading...'
+                    )}
                   </div>
                 </div>
 

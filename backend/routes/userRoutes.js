@@ -5,7 +5,6 @@ const {
   setUser,
   updateUser,
   deleteUser,
-  updateUserClassroom,
   matchOneUser,
 } = require("../controllers/userController");
 const User = require('../models/userModel');
@@ -15,9 +14,6 @@ router.route("/").get(getUsers).post(setUser);
 
 router.route("/:id").put(updateUser).delete(deleteUser);
 
-
-// Add a new route to update the user's classroom
-router.put("/:id/update-classroom", updateUserClassroom);
 
 // Find matched user to current user's id
 router.post("/:id/match-one-user", async (req, res) => {

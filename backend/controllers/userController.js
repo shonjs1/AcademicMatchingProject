@@ -36,37 +36,37 @@ const setUser = asyncHandler(async (req, res) => {
 // })
 
 const updateUser = asyncHandler(async (req, res) => {
-    const userId = req.params.id;
-    const userData = req.body;
+  const userId = req.params.id;
+  const userData = req.body;
 
-    const user = await User.findById(userId);
+  const user = await User.findById(userId);
 
-    if (!user) {
-        res.status(404).json({ message: "User not found" });
-        return;
-    }
+  if (!user) {
+    res.status(404).json({ message: "User not found" });
+    return;
+  }
 
-    // // Update user's name
-    // user.name = userData.name;
-    // Update user's major
-    user.major = userData.major;
-    // Update user's skill level
-    user.skillLevel = userData.skillLevel;
+  // Update user's name
+  user.name = userData.name;
+  // Update user's major
+  user.major = userData.major;
+  // Update user's skill level
+  user.skillLevel = userData.skillLevel;
 
-    // Update user's subject by finding the subject's name based on subject ID
-    if (userData.subject) {
-        const subject = await Subject.findOne({ name: userData.subject });
-        user.subject = subject ? subject.name : userData.subject;
-    }
+  // Update user's subject by finding the subject's name based on subject ID
+  if (userData.subject) {
+    const subject = await Subject.findOne({ name: userData.subject });
+    user.subject = subject ? subject.name : userData.subject;
+  }
 
-    // Update user's course by finding the course's name based on course ID
-    if (userData.classroom) {
-        const course = await Course.findOne( {name: userData.classroom});
-        user.classroom = course ? course.name : userData.classroom;
-    }
+  // Update user's course by finding the course's name based on course ID
+  if (userData.classroom) {
+    const course = await Course.findOne({ name: userData.classroom });
+    user.classroom = course ? course.name : userData.classroom;
+  }
 
-    const updatedUser = await user.save();
-    res.status(200).json(updatedUser);
+  const updatedUser = await user.save();
+  res.status(200).json(updatedUser);
 });
 
 // deleteUser function
@@ -83,7 +83,6 @@ const deleteUser = asyncHandler(async (req, res) => {
   });
   res.status(200).json(deletedUser);
 });
-
 
 // TOP SECRET ALGORITHM !!! DO NOT SHARE !!!
 
@@ -283,6 +282,5 @@ module.exports = {
   setUser,
   updateUser,
   deleteUser,
-  updateUserClassroom,
   matchOneUser,
 };
