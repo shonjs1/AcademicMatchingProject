@@ -20,8 +20,6 @@ export default function Profile() {
   const [courses, setCourses] = useState([]);
   const [courseName, setCourseName] = useState("");
 
-  const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
-  const [isLoadingCourses, setIsLoadingCourses] = useState(true);
 
   //   /********************************************** */
   //we can make a function to get this accountID from login page. For now, we use this dummy one
@@ -124,7 +122,6 @@ export default function Profile() {
       }
       const data = await response.json();
       setSubjects(data);
-      setIsLoadingSubjects(false);
     } catch (error) {
       console.error("Error fetching subjects: ", error);
     }
@@ -140,7 +137,6 @@ export default function Profile() {
       }
       const data = await response.json();
       setCourses(data);
-      setIsLoadingCourses(false);
     } catch (error) {
       console.error("Error fetching courses: ", error);
     }
