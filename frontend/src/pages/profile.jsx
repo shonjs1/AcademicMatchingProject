@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import "../stylesheet/user.css";
+const profile = process.env.PUBLIC_URL + '/images/user-profile.png'
 
 
 export default function Profile() {
@@ -214,7 +215,7 @@ export default function Profile() {
             <div className="card">
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center text-center">
-                  <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
+                  <img src={profile} alt="Basic profile image" className="rounded-circle" width="70%" />
                   <div className="mt-3">
                     <h4>{user ? user.name : 'Loading...'}</h4>
                     <p className="text-secondary mb-1"></p>
@@ -243,7 +244,7 @@ export default function Profile() {
                       <line x1="2" y1="12" x2="22" y2="12" />
                       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                     </svg>
-                    Website
+                    Miss Manager please make this page more pretty !!! Add more stuffs so it looks full !!!
                   </h6>
                   <span className="text-secondary"></span>
                 </li>
