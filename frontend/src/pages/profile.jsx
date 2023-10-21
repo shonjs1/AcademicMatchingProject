@@ -69,8 +69,10 @@ export default function Profile() {
     }
   };
 
+  // Check if a string is a valid MongoDB ObjectID
   const isValidObjectId = (str) => /^[0-9a-fA-F]{24}$/.test(str);
 
+  // Fetch the user data based on the user ID
   const fetchUserData = async (userID) => {
     try {
       if (!isValidObjectId(userID)) {
@@ -113,7 +115,7 @@ export default function Profile() {
     }
   };
 
-  //fetch all subjects
+  // Fetch all subjects
   const fetchSubjects = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/subjects");
@@ -128,7 +130,7 @@ export default function Profile() {
   };
 
 
-  //fetch all courses associated with picked subject
+  // Fetch all courses associated with picked subject
   const fetchCourses = async (selectedSubjectId) => {
     try {
       const response = await fetch(`http://localhost:5000/api/subjects/${selectedSubjectId}/courses`);
@@ -146,6 +148,18 @@ export default function Profile() {
     try {
       const subject = subjects.find((subject) => subject._id === editedUserData.subject);
       const classroom = courses.find((course) => course._id === editedUserData.classroom);
+
+      // Check if any required field is empty before saving
+    if (
+      !editedUserData.name ||
+      !editedUserData.major ||
+      !editedUserData.subject ||
+      !editedUserData.classroom ||
+      !editedUserData.skillLevel
+    ) {
+      alert("Please fill in all required fields before saving.");
+      return;
+    }
   
       const response = await fetch(`http://localhost:5000/api/users/${userID}`, {
         method: "PUT",
@@ -155,7 +169,7 @@ export default function Profile() {
         body: JSON.stringify({
           name: editedUserData.name,
           major: editedUserData.major,
-          // this part keep subject and course show up as id
+          // This part keep subject and course show up as id
           subject: subject ? subject.name : "",
           classroom: classroom ? classroom.name : "",
           skillLevel: editedUserData.skillLevel,
