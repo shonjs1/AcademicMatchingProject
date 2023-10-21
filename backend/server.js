@@ -1,5 +1,5 @@
 const express = require('express') //bring express in
-const cors = require('cors') //need to run npm install cors
+const cors = require('cors') //need to run : npm install cors
 const colors = require('colors') 
 const dotenv = require('dotenv').config() //have environment variables 
 const {errorHandler} = require('./middleware/errorMiddleware')

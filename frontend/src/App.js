@@ -12,7 +12,7 @@ import User from './pages/user';
 import Login from './pages/loginForm';
 import Calendar from './pages/calendar';
 import React ,{useState} from 'react';
-import Register from './pages/registerForm2';
+import Register from './pages/registerForm';
 import Profile from './pages/profile';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
