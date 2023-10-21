@@ -13,6 +13,7 @@ import Login from './pages/loginForm';
 import Calendar from './pages/calendar';
 import React ,{useState} from 'react';
 import Register from './pages/registerForm';
+import Profile from './pages/profile';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
     setLoginVisible(false);
   };
 
+  
   
   const openRegister = () => {
     setRegisterVisible(true);
@@ -49,8 +51,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/user" element={<User />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
-      
       </BrowserRouter>
       <Footer />
 

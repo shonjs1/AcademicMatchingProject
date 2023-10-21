@@ -41,9 +41,8 @@ export default function Login({ onClose, registerVisible }) {
                 <span className="icon">
                   <ion-icon name="log-in"></ion-icon>
                 </span>
-               <nav>
-
-                <Nav.Link href="/user"> Login </Nav.Link>
+                <nav>
+                  <Nav.Link href="/user"> Login </Nav.Link>
                 </nav>
               </button>
               <div className="login-register">

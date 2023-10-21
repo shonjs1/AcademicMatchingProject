@@ -1,4 +1,6 @@
+// looks like we are using navbar in components folder not header
 // Header.js
+
 import React from 'react';
 
 export default function Header ({ openLogin }) {
@@ -11,6 +13,7 @@ export default function Header ({ openLogin }) {
       <a href="about.html">About</a>
       <a href="services.html">Services</a>
       <a href="contact.html">Contact</a>
+      <a href="profile.html">Profile</a>
       <button className="btnLogin-popup" onClick={openLogin}>
         Login
       </button>

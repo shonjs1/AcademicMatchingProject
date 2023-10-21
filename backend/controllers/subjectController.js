@@ -56,26 +56,9 @@ const getSubjects = async (req, res) => {
     }
 };
 
-  // Delete a subject by ID
-const deleteSubject = async (req, res) => {
-    const subjectId = req.params.id;
-    try {
-        const deletedSubject = await Subject.findByIdAndDelete(subjectId);
-
-        if (!deletedSubject) {
-            res.status(404).json({ error: 'Subject not found' });
-        } else {
-            res.status(200).json(deletedSubject);
-        }
-    } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
-
 
 // Call the function to add subjects and courses
 module.exports = {
     //addSubjectsAndCourses,
     getSubjects,
-    deleteSubject,
 }
