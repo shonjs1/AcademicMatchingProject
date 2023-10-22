@@ -1,0 +1,7 @@
+h1 {
+    text-shadow: -1px 1px 10px rgba(0, 0, 0, 0.75);
+    }
+
+.background {
+    background-image: url('./images/books2.jpg');
+}

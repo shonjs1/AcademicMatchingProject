@@ -13,7 +13,7 @@ export default function Header ({ openLogin }) {
       <a href="about.html">About</a>
       <a href="services.html">Services</a>
       <a href="contact.html">Contact</a>
-      <a href="profile.html">Profile</a>
+      {/* <a href="profile.html">Profile</a> */}
       <button className="btnLogin-popup" onClick={openLogin}>
         Login
       </button>
