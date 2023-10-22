@@ -1,21 +1,16 @@
 import React from 'react';
-import Modal from 'react-modal';
 
-const MatchModal = ({ isOpen, user, closeModal }) => {
+const ModalComponent = ({ onClose, userData }) => {
     return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={closeModal}
-            contentLabel="Match Modal"
-        >
-            <div>
-                <h2>Match Details</h2>
-                <p>Name: {user.name}</p>
-                {/* Display other user information here */}
-            </div>
-            <button onClick={closeModal}>Close</button>
-        </Modal>
+    <div className="modal">
+        <div className="modal-content">
+        <h2>Matched User</h2>
+        <p>Name: {userData.name}</p>
+        <p>Major: {userData.major}</p>
+        <button onClick={onClose}>Close</button>
+        </div>
+    </div>
     );
 };
 
-export default MatchModal;
+export default ModalComponent;
