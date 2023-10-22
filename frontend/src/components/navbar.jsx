@@ -14,7 +14,7 @@ export default function CustomNavbar({ openLogin }) {
           <Nav.Link href="/services">Services</Nav.Link>
           <Nav.Link href="/contact">Contact</Nav.Link>
           <Nav.Link href="/calendar">Calendar</Nav.Link>
-          <Nav.Link href="/profile">Profile</Nav.Link>
+          {/* <Nav.Link href="/profile">Profile</Nav.Link> */} {/* To access profile, click green login btn inside NAV login */}
         </Nav>
         <Button variant="outline-light" className="btnLogin-popup" onClick={openLogin}>
           Login

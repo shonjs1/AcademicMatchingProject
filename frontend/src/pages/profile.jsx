@@ -243,8 +243,8 @@ export default function Profile() {
                       <circle cx="12" cy="12" r="10" />
                       <line x1="2" y1="12" x2="22" y2="12" />
                       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg>
-                    Miss Manager please make this page more pretty !!! Add more stuffs so it looks full !!!
+                    </svg><br></br>
+                    I'm a student from WCCI with a flair for photography, avid reader, and design enthusiast. Love exploring new places and cuisines. Let's connect and create a study group! 
                   </h6>
                   <span className="text-secondary"></span>
                 </li>
