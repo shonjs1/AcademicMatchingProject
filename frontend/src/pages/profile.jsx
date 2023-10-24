@@ -73,7 +73,7 @@ export default function Profile() {
       }
     };
     fetchData();
-  }, [accountID, userID, editedUserData.subject]);
+  }, [accountID]);
   
   useEffect(() => {
     if (userID) {
