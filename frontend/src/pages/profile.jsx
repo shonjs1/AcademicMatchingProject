@@ -20,26 +20,60 @@ export default function Profile() {
   const [subjectName, setSubjectName] = useState("");
   const [courses, setCourses] = useState([]);
   const [courseName, setCourseName] = useState("");
+  const [accountID, setAccountID] = useState(null);
 
 
   //   /********************************************** */
   //we can make a function to get this accountID from login page. For now, we use this dummy one
-  const accountID = "653020c8dde1554f45d25b71";
+  //const accountID = "653020c8dde1554f45d25b71";
   //************************************************** */
+  useEffect(() => {
+    getAccountId(); // Call the function to get the account ID
+  }, []);
+
+  // Function to fetch the account ID
+  const getAccountId = async () => {
+    try {
+      const token = localStorage.getItem('token'); // Retrieve the JWT token
+      if (!token) {
+        throw new Error('No token found'); // Handle the case where the token is missing
+      }
+
+      const response = await fetch('http://localhost:5000/api/accounts/me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const accountID = data.id; // Assuming your response includes the user's account ID
+        setAccountID(accountID); // Set the account ID in the component's state
+      } else {
+        throw new Error('Failed to retrieve account ID'); // Handle the case where the request fails
+      }
+    } catch (error) {
+      console.error('Error fetching account ID: ', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchUserID();
-      await fetchSubjects();
-      if (userID) {
-        await fetchUserData(userID);
-      }
-      if (editedUserData.subject) {
-        await fetchCourses(editedUserData.subject);
+      if (accountID) {
+        await fetchUserID();
+        await fetchSubjects();
+        if (userID) {
+          await fetchUserData(userID);
+        }
+        if (editedUserData.subject) {
+          await fetchCourses(editedUserData.subject);
+        }
       }
     };
     fetchData();
-  }, [accountID]);
+  }, [accountID, userID, editedUserData.subject]);
   
   useEffect(() => {
     if (userID) {
@@ -52,6 +86,8 @@ export default function Profile() {
       fetchCourses(editedUserData.subject);
     }
   }, [editedUserData.subject]);
+
+  
 
   // Fetch the user ID based on the account ID
   const fetchUserID = async () => {

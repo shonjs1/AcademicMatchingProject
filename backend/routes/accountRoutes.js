@@ -12,4 +12,5 @@ router.post('/login', loginUser)
 //get user info
 router.get('/me', protect, getMe)
 
+
 module.exports = router

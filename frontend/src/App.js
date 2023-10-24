@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Route as RouteElement, Navigate } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/navbar';
 import Home from './pages';
@@ -41,9 +41,9 @@ function App() {
 
 
   return (
-    <div className="App">
-      <Navbar openLogin={openLogin} />
-      <BrowserRouter>
+    <Router>
+      <div className="App">
+        <Navbar openLogin={openLogin} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -52,16 +52,17 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<Login onClose={closeLogin} registerVisible={openRegister} />} />
+          <Route path="/register" element={<Register onClose={closeRegister} />} />
+          <Route path="/*" element={<Navigate to="/login" />} />
         </Routes>
-      </BrowserRouter>
-      <Footer />
+        <Footer />
 
-      {isLoginVisible && <Login onClose={closeLogin} registerVisible = {openRegister} />}
+        {isLoginVisible && <Login onClose={closeLogin} registerVisible = {openRegister} />}
 
-      {isRegisterVisible && <Register onClose={closeRegister} />}
-
-      
-    </div>
+        {isRegisterVisible && <Register onClose={closeRegister} />}
+      </div>
+    </Router>
   );
 }
 
