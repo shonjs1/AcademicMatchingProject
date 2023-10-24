@@ -36,7 +36,7 @@ export default function Profile() {
     try {
       const token = localStorage.getItem('token'); // Retrieve the JWT token
       if (!token) {
-        throw new Error('No token found'); // Handle the case where the token is missing
+        throw new Error('No token found');
       }
 
       const response = await fetch('http://localhost:5000/api/accounts/me', {
@@ -49,7 +49,7 @@ export default function Profile() {
 
       if (response.ok) {
         const data = await response.json();
-        const accountID = data.id; // Assuming your response includes the user's account ID
+        const accountID = data.id;
         setAccountID(accountID); // Set the account ID in the component's state
       } else {
         throw new Error('Failed to retrieve account ID'); // Handle the case where the request fails

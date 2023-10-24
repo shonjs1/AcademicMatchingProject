@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import "../stylesheet/login_popup.css";
 import { AiOutlineMail, AiOutlineLock, AiOutlineClose } from 'react-icons/ai';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-// import { useNavigate } from 'react-router-dom';
+
 
 
 export default function Login({ onClose, registerVisible, history }) {
@@ -15,7 +15,6 @@ export default function Login({ onClose, registerVisible, history }) {
     e.preventDefault();
     console.log('handleLogin called');
     console.log(email, password);
-    // const navigate = useNavigate();
     // Code to handle login goes here
 
     try {
@@ -28,7 +27,7 @@ export default function Login({ onClose, registerVisible, history }) {
       });
       
       if (response.ok) {
-        // Handle successful login (e.g., store token in localStorage)
+        // Handle successful login (store token in localStorage)
         const data = await response.json();
         const token = data.token;
         console.log(token);
@@ -41,7 +40,7 @@ export default function Login({ onClose, registerVisible, history }) {
         window.location.href = './profile';
         
       } else {
-        // Handle login failure (e.g., show error message)
+        // Handle login failure
         const data = await response.json();
         console.error(data.message); // Log the error message
       }
@@ -63,7 +62,7 @@ export default function Login({ onClose, registerVisible, history }) {
                   type="email"
                   required
                   placeholder="Email"
-                  value={email} // Bind the value to the email state
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)} />
                 <label>Email</label>
               </div>
@@ -73,7 +72,7 @@ export default function Login({ onClose, registerVisible, history }) {
                   type="password"
                   required
                   placeholder="Password"
-                  value={password} // Bind the value to the password state
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}/>
                 <label>Password</label>
               </div>
