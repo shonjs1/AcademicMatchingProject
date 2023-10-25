@@ -191,14 +191,14 @@ export default function Register({ onClose }) {
       </div>
 
       {/* Existing user notification */}
-      {/* {registrationStatus === 'exists' && (
+      {registrationStatus === 'exists' && (
         <div className="popup-notification error">
           <div className="text-notification">Username or email already exists.</div>
         </div>
-      )} */}
+      )}
 
       {/* Successful registration notification */}
-        {/* {registrationStatus === 'success' && (
+        {registrationStatus === 'success' && (
           <div className="popup-notification success">
             <div className="text-notification"> Registration successful. Please log in. </div>
             <br />
@@ -213,9 +213,9 @@ export default function Register({ onClose }) {
               Great!
             </button>
           </div>
-        )} */}
+        )}
 
-        
+
     </div>
   );
 }
