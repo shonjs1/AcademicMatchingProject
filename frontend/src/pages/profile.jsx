@@ -275,6 +275,9 @@ export default function Profile() {
                       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                     </svg><br></br>
                     I'm a student from WCCI with a flair for photography, avid reader, and design enthusiast. Love exploring new places and cuisines. Let's connect and create a study group! 
+                       <Button variant="outline-dark"  >
+                              Create A Match
+                        </Button>
                   </h6>
                   <span className="text-secondary"></span>
                 </li>
