@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import "../stylesheet/login_popup.css";
 import { AiOutlineMail, AiOutlineLock, AiOutlineClose } from 'react-icons/ai';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Alert } from 'react-bootstrap';
 
 
 
@@ -10,6 +10,8 @@ export default function Login({ onClose, registerVisible, history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
+
+  const [loginError, setLoginError] = useState('');
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -43,6 +45,8 @@ export default function Login({ onClose, registerVisible, history }) {
         // Handle login failure
         const data = await response.json();
         console.error(data.message); // Log the error message
+        // Set the login error message
+        setLoginError(data.message);
       }
     } catch (error) {
       console.error(error); // Handle network errors
@@ -56,6 +60,7 @@ export default function Login({ onClose, registerVisible, history }) {
           <div className="form-box login">
             <h2>Login</h2>
             <form action="#" onSubmit={handleLogin}>
+
               <div className="input-box">
                 <AiOutlineMail className="icon" />
                 <input
@@ -64,8 +69,9 @@ export default function Login({ onClose, registerVisible, history }) {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)} />
-                <label>Email</label>
+                
               </div>
+
               <div className="input-box">
                 <AiOutlineLock className="icon" />
                 <input
@@ -74,16 +80,20 @@ export default function Login({ onClose, registerVisible, history }) {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}/>
-                <label>Password</label>
+                
               </div>
 
+              {loginError && (
+                <Alert variant="danger">{loginError}</Alert>
+              )}
+
               {/* Remember me and Forgot Password */}
-              <div className="remember-forgot">
+              {/* <div className="remember-forgot">
                 <label>
                   <input type="checkbox" /> Remember me
                 </label>
                 <a href="#">Forgot Password?</a>
-              </div>
+              </div> */}
 
               {/* Login Button */}
               <button type="submit" className="btn">

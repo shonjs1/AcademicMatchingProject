@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import "../stylesheet/user.css";
 const profile = process.env.PUBLIC_URL + '/images/user-profile.png'
 
@@ -22,11 +22,6 @@ export default function Profile() {
   const [courseName, setCourseName] = useState("");
   const [accountID, setAccountID] = useState(null);
 
-
-  //   /********************************************** */
-  //we can make a function to get this accountID from login page. For now, we use this dummy one
-  //const accountID = "653020c8dde1554f45d25b71";
-  //************************************************** */
   useEffect(() => {
     getAccountId(); // Call the function to get the account ID
   }, []);
@@ -86,8 +81,6 @@ export default function Profile() {
       fetchCourses(editedUserData.subject);
     }
   }, [editedUserData.subject]);
-
-  
 
   // Fetch the user ID based on the account ID
   const fetchUserID = async () => {
@@ -221,6 +214,7 @@ export default function Profile() {
         // Update subjectName and courseName based on selected subject and course
         setSubjectName(subject ? subject.name : "");
         setCourseName(classroom ? classroom.name : "");
+
       } else {
         throw new Error("Failed to save changes");
       }
@@ -307,7 +301,11 @@ export default function Profile() {
                           name: e.target.value })}
                       />
                     ) : (
-                      user ? user.name : 'Loading...'
+                      user ? (
+                        user.name || 'Enter your name'
+                      ) : (
+                        'Loading...'
+                      )
                     )}
                   </div>
                 </div>
@@ -329,7 +327,11 @@ export default function Profile() {
                           major: e.target.value })}
                       />
                     ) : (
-                      user ? user.major : 'Loading...'
+                      user ? (
+                        user.major || 'Enter your major'
+                      ) : (
+                        'Loading...'
+                      )
                     )}
                   </div>
                 </div>
@@ -362,7 +364,7 @@ export default function Profile() {
                     ) : (
                       // Display the selected subject name
                       user ? (
-                        user.subject || 'No course selected'
+                        user.subject || 'Select a subject'
                       ) : (
                         'Loading...'
                       )
@@ -397,7 +399,7 @@ export default function Profile() {
                     ) : (
                       // Display the selected course name
                       user ? (
-                        user.classroom || 'No course selected'
+                        user.classroom || 'Select a course'
                       ) : (
                         'Loading...'
                       )
@@ -429,7 +431,11 @@ export default function Profile() {
                         <option value="Advanced">Advanced</option>
                       </Form.Control>
                     ) : (
-                      user ? user.skillLevel : 'Loading...'
+                      user ? (
+                        user.skillLevel || 'Select your skill on this course'
+                      ) : (
+                        'Loading...'
+                      )
                     )}
                   </div>
                 </div>

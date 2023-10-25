@@ -64,7 +64,7 @@ const loginUser = asyncHandler(async (req, res) => {
         })
     } else {
         res.status(400)
-        throw new Error('Invalid Credentials')
+        throw new Error('Email or Password is incorrect!')
     }
     res.json({ message: 'Login User' })
 });
