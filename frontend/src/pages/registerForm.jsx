@@ -7,11 +7,80 @@ export default function Register({ onClose }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [registrationStatus, setRegistrationStatus] = useState(null); // To track registration status
 
-  function handleRegister(e) {
+  async function handleRegister(e) {
     e.preventDefault();
-    // Code to handle registration goes here
-    onClose();
+  
+    // Check if the username and email already exist
+    const checkUserExistsData = { username, email };
+  
+    try {
+      const checkUserExistsResponse = await fetch('http://localhost:5000/api/accounts/check-user-exists', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(checkUserExistsData),
+      });
+  
+      if (!checkUserExistsResponse.ok) {
+        // Handle error
+        console.error('User existence check failed.');
+        return;
+      }
+  
+      const { exists } = await checkUserExistsResponse.json();
+  
+      if (exists.username || exists.email) {
+        // Username or email already exists, handle the error
+        console.error('Username or email already exists.');
+        setRegistrationStatus('exists');
+        return;
+      }
+  
+      // Register the account
+      const accountData = { email, password, username };
+  
+      const accountResponse = await fetch('http://localhost:5000/api/accounts/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(accountData),
+      });
+  
+      if (!accountResponse.ok) {
+        // Handle error
+        console.error('Account registration failed.');
+        return;
+      }
+  
+      // Create an empty user and associate it with the account
+      const userData = {
+        account: accountResponse._id, // Use the _id of the created account
+      };
+  
+      const userResponse = await fetch('http://localhost:5000/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+  
+      if (!userResponse.ok) {
+        // Handle error
+        console.error('User creation failed.');
+        return;
+      }
+  
+      // Registration successful, close the registration form
+      setRegistrationStatus('success');
+      onClose();
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
   }
 
   return (
@@ -20,7 +89,18 @@ export default function Register({ onClose }) {
         <div className="form-box login">
           <div className="form-box register">
             <h2>Registration</h2>
-            <form action="#">
+            <form onSubmit={handleRegister}>
+              {/* Existing user notification */}
+              {registrationStatus === 'exists' && (
+                <div className="error-message">Username or email already exists.</div>
+              )}
+
+              {/* Successful registration notification */}
+              {registrationStatus === 'success' && (
+                <div className="success-message">Registration successful. Please log in.</div>
+              )}
+
+              {/* Input fields */}
               <div className="input-box">
                 <AiOutlineUser className="icon" />
                 <input type="text" required placeholder="Username" />
