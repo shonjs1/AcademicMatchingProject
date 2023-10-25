@@ -1,4 +1,4 @@
-// Login.js
+// Register.js
 import React, { useState } from 'react';
 import { AiOutlineUser, AiOutlineMail, AiOutlineLock ,AiOutlineClose } from 'react-icons/ai';
 import "../stylesheet/login_popup.css";
