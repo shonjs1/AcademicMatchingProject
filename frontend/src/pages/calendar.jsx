@@ -60,11 +60,11 @@ function generateWeeklyEvents() {
         mondayDate.setHours(12, 0, 0);
 
         const wednesdayDate = new Date(startDate);
-        wednesdayDate.setDate(startDate.getDate() + i * 7 + 3);
+        wednesdayDate.setDate(startDate.getDate() + i * 7 + 6);
         wednesdayDate.setHours(12, 0, 0);
 
         const fridayDate = new Date(startDate);
-        fridayDate.setDate(startDate.getDate() + i * 7 + 5);
+        fridayDate.setDate(startDate.getDate() + i * 7 + 4);
         fridayDate.setHours(12, 0, 0);
 
         events.push(

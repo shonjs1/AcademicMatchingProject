@@ -22,6 +22,37 @@ export default function Profile() {
   const [courseName, setCourseName] = useState("");
   const [accountID, setAccountID] = useState(null);
 
+   // Define state variables for the modal
+  const [showMatchModal, setShowMatchModal] = useState(false);
+  const [matchInfo, setMatchInfo] = useState(null);
+
+   // Function to open the modal
+  const [matchingUserInfo, setMatchingUserInfo] = useState(null);
+
+  const handleCreateMatch = async () => {
+    try {
+      const response = await fetch(`/api/users/${userID}/match-one-user`);
+
+      if (response.status === 200) {
+        // Match was created successfully
+        const matchInfo = response.data;
+        // Store matching user's information in state
+        setMatchingUserInfo(matchInfo);
+        setShowMatchModal(true);
+      } else {
+        console.error('Failed to create a match');
+      }
+    } catch (error) {
+      console.error('Error creating a match: ', error);
+    }
+  };
+
+
+   // Function to close the modal
+  const handleCloseMatchModal = () => {
+    setShowMatchModal(false);
+  };
+
   useEffect(() => {
     getAccountId(); // Call the function to get the account ID
   }, []);
@@ -275,9 +306,33 @@ export default function Profile() {
                       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                     </svg><br></br>
                     I'm a student from WCCI with a flair for photography, avid reader, and design enthusiast. Love exploring new places and cuisines. Let's connect and create a study group! 
-                       <Button variant="outline-dark"  >
-                              Create A Match
-                        </Button>
+       {/* "Create A Match" button */}
+      <Button variant="outline-dark" onClick={handleCreateMatch}>
+        Create A Match
+      </Button>
+
+      {/* Modal for match information */}
+      <Modal show={showMatchModal} onHide={handleCloseMatchModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Match Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {matchingUserInfo ? (
+            <div>
+              <p>Name: {matchingUserInfo.name}</p>
+              <p>Major: {matchingUserInfo.major}</p>
+              <p>Skill Level: {matchingUserInfo.skillLevel}</p>
+            </div>
+          ) : (
+            <p>Loading match information...</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseMatchModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
                   </h6>
                   <span className="text-secondary"></span>
                 </li>
