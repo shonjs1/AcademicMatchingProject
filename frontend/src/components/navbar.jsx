@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Login from '../pages/loginForm';
 
-export default function CustomNavbar({ openLogin }) {
+export default function CustomNavbar({ openLogin, isLoggedIn, onLogout }) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Brand href="/">Logo</Navbar.Brand>
@@ -16,8 +16,8 @@ export default function CustomNavbar({ openLogin }) {
           <Nav.Link href="/calendar">Calendar</Nav.Link>
           {/* <Nav.Link href="/profile">Profile</Nav.Link> */} {/* To access profile, click green login btn inside NAV login */}
         </Nav>
-        <Button variant="outline-light" className="btnLogin-popup" onClick={openLogin}>
-          Login
+        <Button variant="outline-light" className="btnLogin-popup" onClick={isLoggedIn ? onLogout : openLogin}>
+          {isLoggedIn ? 'Logout' : 'Login'}
         </Button>
       </Navbar.Collapse>
     </Navbar>

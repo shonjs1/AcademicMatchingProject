@@ -6,7 +6,7 @@ import { Navbar, Nav, Button, Alert } from 'react-bootstrap';
 
 
 
-export default function Login({ onClose, registerVisible, history }) {
+export default function Login({ onClose, registerVisible }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
@@ -17,8 +17,8 @@ export default function Login({ onClose, registerVisible, history }) {
     e.preventDefault();
     console.log('handleLogin called');
     console.log(email, password);
-    // Code to handle login goes here
 
+    // Code to handle login goes here
     try {
       const response = await fetch('http://localhost:5000/api/accounts/login', {
         method: 'POST',
