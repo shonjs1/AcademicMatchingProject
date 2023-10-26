@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import "../stylesheet/user.css";
 const profile = process.env.PUBLIC_URL + '/images/user-profile.png'
 
@@ -20,22 +20,51 @@ export default function Profile() {
   const [subjectName, setSubjectName] = useState("");
   const [courses, setCourses] = useState([]);
   const [courseName, setCourseName] = useState("");
+  const [accountID, setAccountID] = useState(null);
 
+  useEffect(() => {
+    getAccountId(); // Call the function to get the account ID
+  }, []);
 
-  //   /********************************************** */
-  //we can make a function to get this accountID from login page. For now, we use this dummy one
-  const accountID = "653020c8dde1554f45d25b71";
-  //************************************************** */
+  // Function to fetch the account ID
+  const getAccountId = async () => {
+    try {
+      const token = localStorage.getItem('token'); // Retrieve the JWT token
+      if (!token) {
+        throw new Error('No token found');
+      }
+
+      const response = await fetch('http://localhost:5000/api/accounts/me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const accountID = data.id;
+        setAccountID(accountID); // Set the account ID in the component's state
+      } else {
+        throw new Error('Failed to retrieve account ID'); // Handle the case where the request fails
+      }
+    } catch (error) {
+      console.error('Error fetching account ID: ', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchUserID();
-      await fetchSubjects();
-      if (userID) {
-        await fetchUserData(userID);
-      }
-      if (editedUserData.subject) {
-        await fetchCourses(editedUserData.subject);
+      if (accountID) {
+        await fetchUserID();
+        await fetchSubjects();
+        if (userID) {
+          await fetchUserData(userID);
+        }
+        if (editedUserData.subject) {
+          await fetchCourses(editedUserData.subject);
+        }
       }
     };
     fetchData();
@@ -185,6 +214,7 @@ export default function Profile() {
         // Update subjectName and courseName based on selected subject and course
         setSubjectName(subject ? subject.name : "");
         setCourseName(classroom ? classroom.name : "");
+
       } else {
         throw new Error("Failed to save changes");
       }
@@ -274,7 +304,11 @@ export default function Profile() {
                           name: e.target.value })}
                       />
                     ) : (
-                      user ? user.name : 'Loading...'
+                      user ? (
+                        user.name || 'Enter your name'
+                      ) : (
+                        'Loading...'
+                      )
                     )}
                   </div>
                 </div>
@@ -296,7 +330,11 @@ export default function Profile() {
                           major: e.target.value })}
                       />
                     ) : (
-                      user ? user.major : 'Loading...'
+                      user ? (
+                        user.major || 'Enter your major'
+                      ) : (
+                        'Loading...'
+                      )
                     )}
                   </div>
                 </div>
@@ -329,7 +367,7 @@ export default function Profile() {
                     ) : (
                       // Display the selected subject name
                       user ? (
-                        user.subject || 'No course selected'
+                        user.subject || 'Select a subject'
                       ) : (
                         'Loading...'
                       )
@@ -364,7 +402,7 @@ export default function Profile() {
                     ) : (
                       // Display the selected course name
                       user ? (
-                        user.classroom || 'No course selected'
+                        user.classroom || 'Select a course'
                       ) : (
                         'Loading...'
                       )
@@ -396,7 +434,11 @@ export default function Profile() {
                         <option value="Advanced">Advanced</option>
                       </Form.Control>
                     ) : (
-                      user ? user.skillLevel : 'Loading...'
+                      user ? (
+                        user.skillLevel || 'Select your skill on this course'
+                      ) : (
+                        'Loading...'
+                      )
                     )}
                   </div>
                 </div>

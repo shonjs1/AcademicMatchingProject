@@ -3,23 +3,23 @@ const mongoose = require('mongoose')
 const userSchema = mongoose.Schema({
     name:{
         type: String,
-        required: [true, 'Please enter a name']
+        required: false
     },
     major: {
         type: String,
-        required: true
+        required: false
     },
     subject: {
         type: String,
-        required: true
+        required: false
     },
     classroom: {
         type: String,
-        required: true
+        required: false
     },
     skillLevel: {
         type: String,
-        required: true
+        required: false
     },
     account: {  // Add a reference to the user's profile
         type: mongoose.Schema.Types.ObjectId,

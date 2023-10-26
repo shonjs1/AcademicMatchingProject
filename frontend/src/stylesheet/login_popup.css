@@ -106,4 +106,60 @@
     color: #ffffff;
     cursor: not-allowed;
   }
-  
+
+  /* Style for the pop-up notification container */
+.popup-notification {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-radius: 4px;
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the success notification */
+.popup-notification.success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* Style for the error notification */
+.popup-notification.error {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.popup.active-popup .popup-notification {
+  display: block;
+}
+
+.close-icon   {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.btn-ok {
+  background-color: #ffffff;
+  color: rgb(246, 7, 7);
+  border: none;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.text-notification {
+  display: inline-block;
+}
