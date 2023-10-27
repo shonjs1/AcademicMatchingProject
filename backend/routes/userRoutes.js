@@ -16,9 +16,9 @@ router.route("/:id").put(updateUser).delete(deleteUser);
 
 
 // Find matched user to current user's id
-router.post("/:id/match-one-user", async (req, res) => {
+router.get("/:id/match-one-user", async (req, res) => {
   const userIdToMatch = req.params.id; // Get the user ID from the URL
-
+  
   try {
     console.log("Before calling matchOneUser");
     const result = await matchOneUser(userIdToMatch);

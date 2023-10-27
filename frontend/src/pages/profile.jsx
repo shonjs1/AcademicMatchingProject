@@ -26,33 +26,6 @@ export default function Profile() {
   const [showMatchModal, setShowMatchModal] = useState(false);
   const [matchInfo, setMatchInfo] = useState(null);
 
-   // Function to open the modal
-  const [matchingUserInfo, setMatchingUserInfo] = useState(null);
-
-  const handleCreateMatch = async () => {
-    try {
-      const response = await fetch(`/api/users/${userID}/match-one-user`);
-
-      if (response.status === 200) {
-        // Match was created successfully
-        const matchInfo = response.data;
-        // Store matching user's information in state
-        setMatchingUserInfo(matchInfo);
-        setShowMatchModal(true);
-      } else {
-        console.error('Failed to create a match');
-      }
-    } catch (error) {
-      console.error('Error creating a match: ', error);
-    }
-  };
-
-
-   // Function to close the modal
-  const handleCloseMatchModal = () => {
-    setShowMatchModal(false);
-  };
-
   useEffect(() => {
     getAccountId(); // Call the function to get the account ID
   }, []);
@@ -268,6 +241,46 @@ export default function Profile() {
     setIsEditing(!isEditing);
   };
 
+     // Function to open the modal
+    const [matchingUserInfo, setMatchingUserInfo] = useState(null);
+
+    const handleCreateMatch = async () => {
+      console.log("Creating a match...");
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/${userID}/match-one-user`, {
+
+    });
+        console.log('Response:', response);
+        
+        if (response.status === 200) {
+          const responseData = await response.json();
+          console.log('Response Data:', responseData);
+
+          if (responseData && responseData.message === "We found a match for you!") {
+          // Access the matching user's information from the 'matched' object
+            const matchInfo = responseData.matched;
+            // Check if matchInfo is not empty and contains the expected data
+            if (matchInfo) {
+              console.log('Match Info:', matchInfo);
+              setMatchingUserInfo(matchInfo);
+              setShowMatchModal(true);
+            } else {
+              console.error('Match information is missing or empty.');
+            }
+          }
+        } else {
+          console.error('Failed to create a match');
+        }
+      } catch (error) {
+        console.error('Error creating a match: ', error);
+      }
+    };
+
+      // Function to close the modal
+    const handleCloseMatchModal = () => {
+      setShowMatchModal(false);
+    };
+
   return (
     <div className="container">
       <div className="main-body">
@@ -320,7 +333,10 @@ export default function Profile() {
           {matchingUserInfo ? (
             <div>
               <p>Name: {matchingUserInfo.name}</p>
+              <p>Email: {matchingUserInfo.email}</p>
               <p>Major: {matchingUserInfo.major}</p>
+              <p>Subject: {matchingUserInfo.subject}</p>
+              <p>Course: {matchingUserInfo.classroom}</p>
               <p>Skill Level: {matchingUserInfo.skillLevel}</p>
             </div>
           ) : (
