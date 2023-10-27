@@ -259,6 +259,7 @@ export default function Profile() {
           if (responseData && responseData.message === "We found a match for you!") {
           // Access the matching user's information from the 'matched' object
             const matchInfo = responseData.matched;
+
             // Check if matchInfo is not empty and contains the expected data
             if (matchInfo) {
               console.log('Match Info:', matchInfo);
@@ -286,76 +287,29 @@ export default function Profile() {
       <div className="main-body">
         <div className="row gutters-sm">
           <div className="col-md-4 mb-3">
+
             <div className="card">
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center text-center">
                   <img src={profile} alt="Basic profile image" className="rounded-circle" width="70%" />
                   <div className="mt-3">
                     <h4>{user ? user.name : 'Loading...'}</h4>
-                    <p className="text-secondary mb-1"></p>
-                    <p className="text-muted font-size-sm"></p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="card mt-3">
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                  <h6 className="mb-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      className="feather feather-globe mr-2 icon-inline"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg><br></br>
-                    I'm a student from WCCI with a flair for photography, avid reader, and design enthusiast. Love exploring new places and cuisines. Let's connect and create a study group! 
-       {/* "Create A Match" button */}
-      <Button variant="outline-dark" onClick={handleCreateMatch}>
-        Create A Match
-      </Button>
 
-      {/* Modal for match information */}
-      <Modal show={showMatchModal} onHide={handleCloseMatchModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Match Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {matchingUserInfo ? (
-            <div>
-              <p>Name: {matchingUserInfo.name}</p>
-              <p>Email: {matchingUserInfo.email}</p>
-              <p>Major: {matchingUserInfo.major}</p>
-              <p>Subject: {matchingUserInfo.subject}</p>
-              <p>Course: {matchingUserInfo.classroom}</p>
-              <p>Skill Level: {matchingUserInfo.skillLevel}</p>
-            </div>
-          ) : (
-            <p>Loading match information...</p>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseMatchModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            <div className="card mt-3">
+                  <h6 className="mb-0 align-items-center text-center">
+                    About Me
                   </h6>
-                  <span className="text-secondary"></span>
-                </li>
+                  <span className="text-secondary"><p className="text-muted font-size-sm">I'm a student from WCCI with a flair for photography, avid reader, and design enthusiast. Love exploring new places and cuisines. Let's connect and create a study group! </p></span>
+
                 {/* Add the rest of the list items here (GitHub, Twitter, Instagram, Facebook) */}
-              </ul>
             </div>
           </div>
+
+          
           <div className="col-md-8">
             <div className="card mb-3">
               <div className="card-body">
@@ -529,6 +483,77 @@ export default function Profile() {
                     )}
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="card mb-3">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-sm-12 align-items-center text-center">
+                    
+                      {/* "Create A Match" button */}
+                      <Button variant="outline-dark" onClick={handleCreateMatch}>
+                        Create A Match
+                      </Button>
+                      
+                      <h5 className="mb-0 ">Your Matched Buddy Info:</h5>
+                      
+                        <div className="row">
+                          <div className="col-sm-3">
+                            <h6 className="mb-0">Name</h6>
+                          </div>
+                          <div className="col-sm-9 text-secondary">
+                              <Form.Control
+                                type="text"
+                                value='upcoming feature'
+                                readOnly
+                              />
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-sm-3">
+                            <h6 className="mb-0">Email</h6>
+                          </div>
+                          <div className="col-sm-9 text-secondary">
+                              <Form.Control
+                                type="text"
+                                value='in construction'
+                                readOnly
+                              />
+                          </div>
+                        </div>
+                      
+                      {/* Modal for match information */}
+                      <Modal show={showMatchModal} onHide={handleCloseMatchModal}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Match Details</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          {matchingUserInfo ? (
+                            <div>
+                              <p>Name: {matchingUserInfo.name}</p>
+                              <p>Email: {matchingUserInfo.email}</p>
+                              <p>Major: {matchingUserInfo.major}</p>
+                              <p>Subject: {matchingUserInfo.subject}</p>
+                              <p>Course: {matchingUserInfo.classroom}</p>
+                              <p>Skill Level: {matchingUserInfo.skillLevel}</p>
+                            </div>
+                          ) : (
+                            <p>Loading match information...</p>
+                          )}
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleCloseMatchModal}>
+                            Close
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                <hr />
+
+                  </div>
+                </div>
+                <hr />
               </div>
             </div>
           </div>
