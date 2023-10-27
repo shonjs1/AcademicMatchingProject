@@ -8,6 +8,7 @@ export default function Profile() {
   const [user, setUser] = useState(null);
   const [userID, setUserID] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [group, setGroup] = useState([]);
   const [editedUserData, setEditedUserData] = useState({
     name: "",
     major: "",
@@ -21,6 +22,8 @@ export default function Profile() {
   const [courses, setCourses] = useState([]);
   const [courseName, setCourseName] = useState("");
   const [accountID, setAccountID] = useState(null);
+  const [secondPersonName, setSecondPersonName] = useState(""); 
+  const [secondPersonEmail, setSecondPersonEmail] = useState(""); 
 
    // Define state variables for the modal
   const [showMatchModal, setShowMatchModal] = useState(false);
@@ -160,6 +163,46 @@ export default function Profile() {
       setSubjects(data);
     } catch (error) {
       console.error("Error fetching subjects: ", error);
+    }
+  };
+
+  useEffect(() => {
+    if (userID) {
+      fetchGroup();
+    }
+  }, [userID]);
+
+  //Fetch Users Group
+  const fetchGroup = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/groups");
+      if (!response.ok) {
+        throw new Error("Failed to fetch groups");
+      }
+      const groups = await response.json();
+      
+      // Find group where your user is a member
+      const userGroup = groups.find((group) => group.members.includes(userID)); // Assuming userID contains your user's ID
+  
+      if (userGroup) {
+        
+        setGroup(userGroup);
+  
+        if (userGroup.members.length >= 2) {
+          const secondPerson = userGroup.members.find((member) => member !== userID);
+          if (secondPerson) {
+            const secondPersonName = secondPerson.name;
+            console.log(secondPersonName);
+            const secondPersonEmail = secondPerson.email;
+            setSecondPersonName(secondPersonName);
+            setSecondPersonEmail(secondPersonEmail);
+          }
+        }
+      } else {
+        console.log("User is not in any group.");
+      }
+    } catch (error) {
+      console.error("Error fetching groups: ", error);
     }
   };
 
@@ -505,7 +548,7 @@ export default function Profile() {
                           <div className="col-sm-9 text-secondary">
                               <Form.Control
                                 type="text"
-                                value='upcoming feature'
+                                value={secondPersonName}
                                 readOnly
                               />
                           </div>
@@ -518,7 +561,7 @@ export default function Profile() {
                           <div className="col-sm-9 text-secondary">
                               <Form.Control
                                 type="text"
-                                value='in construction'
+                                value={secondPersonEmail}
                                 readOnly
                               />
                           </div>
@@ -562,4 +605,3 @@ export default function Profile() {
     </div>
   );
 }
-

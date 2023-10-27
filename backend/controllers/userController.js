@@ -258,7 +258,6 @@ async function matchOneUser(userIdToMatch) {
           bestMatchUser.matched = true;
           await user.save();
           await bestMatchUser.save();
-
           return {
             message: "We found a match for you!",
             //groupName: group.name,
