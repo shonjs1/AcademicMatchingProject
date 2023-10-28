@@ -1,8 +1,11 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Image  } from 'react-bootstrap';
 import Login from '../pages/loginForm';
+import { Link } from 'react-router-dom';
 
-export default function CustomNavbar({ openLogin, isLoggedIn, onLogout }) {
+const defaultProfileImage  = process.env.PUBLIC_URL + '/images/user-profile.png';
+
+export default function CustomNavbar({ openLogin, isLoggedIn, onLogout, profileImage = defaultProfileImage  }) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Brand href="/">Logo</Navbar.Brand>
@@ -16,7 +19,13 @@ export default function CustomNavbar({ openLogin, isLoggedIn, onLogout }) {
           <Nav.Link href="/calendar">Calendar</Nav.Link>
           {/* <Nav.Link href="/profile">Profile</Nav.Link> */} {/* To access profile, click green login btn inside NAV login */}
         </Nav>
-        <Button variant="outline-light" className="btnLogin-popup" onClick={isLoggedIn ? onLogout : openLogin}>
+        {isLoggedIn && profileImage && (
+          <Link to="/profile">
+            <Image src={profileImage} roundedCircle width="40" height="40" className="mr-2" />
+          </Link>
+        )}
+
+        <Button variant="outline-light" className="btnLogin-popup ml-2" onClick={isLoggedIn ? onLogout : openLogin}>
           {isLoggedIn ? 'Logout' : 'Login'}
         </Button>
       </Navbar.Collapse>
