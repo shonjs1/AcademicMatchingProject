@@ -20,12 +20,12 @@ export default function User() {
           <p>Computer Science</p>
           <p><b>1380:Data Science for all·1610:Computing in the Arts·1620:Visual imaging in the Electronic Age</b></p>
           <Button variant="outline-dark"  >
-       Create A Match
+      Create A Match
         </Button>
           <p>Hello! my name is Joy Wang, Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit iste
             placeat</p>
             <p>veniam saepe! Explicabo rem quae totam commodi similique cumque quaerat doloribus. Tempore, ut ab</p>
-           <p> maiores
+          <p> maiores
             cum qui recusandae consequatur, quis doloribus porro magni, officia cupiditate. Ea am</p>
         </div>
       </div>

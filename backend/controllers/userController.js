@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Group = require("../models/groupModel");
+const Account = require("../models/accountModel");
 const Subject = require("../models/subjectModel");
 const Course = require("../models/subjectModel");
 
@@ -52,6 +53,8 @@ const updateUser = asyncHandler(async (req, res) => {
   user.major = userData.major;
   // Update user's skill level
   user.skillLevel = userData.skillLevel;
+  // Update user's about me
+  user.about = userData.about;
 
   // Update user's subject by finding the subject's name based on subject ID
   if (userData.subject) {
@@ -235,10 +238,12 @@ async function matchOneUser(userIdToMatch) {
     );
 
     if (bestMatch) {
+      const bestMatchUser = await User.findById(bestMatch._id).populate('account');
       // Check if both users agree to form a group
-      if (user.agreeToFormAGroup && bestMatch.agreeToFormAGroup) {
+      if (user.agreeToFormAGroup && bestMatchUser.agreeToFormAGroup) {
         // Create a group name by combining their names
-        const groupName = `${user.name}_${bestMatch.name}`;
+        const groupName = `${user.name}_${bestMatchUser.name}`;
+        
 
         // Check if the group with the same name already exists
         const existingGroup = await Group.findOne({ name: groupName });
@@ -247,19 +252,29 @@ async function matchOneUser(userIdToMatch) {
           // Create a new group
           const group = await Group.create({
             name: groupName,
-            members: [user._id, bestMatch._id],
+            members: [user._id, bestMatchUser._id],
           });
 
           // Update the users' matched status
           user.matched = true;
-          //bestMatch.matched = true;
+          user.groupID = group._id;
+          bestMatchUser.matched = true;
+          bestMatchUser.groupID = group._id;
           await user.save();
-          //await bestMatch.save();
-
+          await bestMatchUser.save();
           return {
-            message: "Group created successfully",
-            groupName: group.name,
-            members: [user.name, bestMatch.name],
+            message: "We found a match for you!",
+            //groupName: group.name,
+            matched:
+              {
+                name: bestMatchUser.name,
+                email: bestMatchUser.account.email,
+                major: bestMatchUser.major,
+                subject: bestMatchUser.subject,
+                classroom: bestMatchUser.classroom,
+                skillLevel: bestMatchUser.skillLevel,
+                groupID: bestMatchUser.groupID,
+              },
           };
         } else {
           return { message: "Group with the same name already exists" };

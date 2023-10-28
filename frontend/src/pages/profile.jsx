@@ -5,15 +5,20 @@ const profile = process.env.PUBLIC_URL + '/images/user-profile.png'
 
 
 export default function Profile() {
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [user, setUser] = useState(null);
   const [userID, setUserID] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [groupID, setGroupID] = useState(null);
+  const [group, setGroup] = useState([]);
   const [editedUserData, setEditedUserData] = useState({
     name: "",
     major: "",
     subject: "",
     classroom: "",
     skillLevel: "",
+    about: "",
   });
 
   const [subjects, setSubjects] = useState([]);
@@ -21,6 +26,13 @@ export default function Profile() {
   const [courses, setCourses] = useState([]);
   const [courseName, setCourseName] = useState("");
   const [accountID, setAccountID] = useState(null);
+
+   // Define state variables for the modal
+  const [showMatchModal, setShowMatchModal] = useState(false);
+  const [showUnmatchModal, setShowUnmatchModal] = useState(false);
+  const [showConfirmUnmatchModal, setShowConfirmUnmatchModal] = useState(false);
+
+  const [matchInfo, setMatchInfo] = useState(null);
 
   useEffect(() => {
     getAccountId(); // Call the function to get the account ID
@@ -115,17 +127,21 @@ export default function Profile() {
       }
       const data = await response.json();
 
+      if (data && data.groupID) {
+        setGroupID(data.groupID);
+      }
       if (data.error && data.error === "User not found") {
         setUser(null);
       } else {
-        const { name, major, subject, classroom, skillLevel } = data;
+        const { name, major, subject, classroom, skillLevel, about } = data;
         setUser(data);
         setEditedUserData({
           name,
           major,
           subject,
           classroom,
-          skillLevel 
+          skillLevel,
+          about
         });
 
         // Fetch and set the subject and course names based on their IDs
@@ -159,7 +175,6 @@ export default function Profile() {
     }
   };
 
-
   // Fetch all courses associated with picked subject
   const fetchCourses = async (selectedSubjectId) => {
     try {
@@ -187,9 +202,10 @@ export default function Profile() {
       !editedUserData.classroom ||
       !editedUserData.skillLevel
     ) {
-      alert("Please fill in all required fields before saving.");
+      setErrorMessage('Please fill in all required fields before saving.');
+      setShowError(true);
       return;
-    }
+  }
   
       const response = await fetch(`http://localhost:5000/api/users/${userID}`, {
         method: "PUT",
@@ -203,6 +219,7 @@ export default function Profile() {
           subject: subject ? subject.name : "",
           classroom: classroom ? classroom.name : "",
           skillLevel: editedUserData.skillLevel,
+          about: editedUserData.about,
         }),
       });
   
@@ -232,59 +249,137 @@ export default function Profile() {
         subject: user ? user.subject : "",
         classroom: user ? user.classroom : "",
         skillLevel: user ? user.skillLevel : "",
+        about: user ? user.about : "",
       });
     }
     setIsEditing(!isEditing);
   };
 
+  
+  // Function to create a match
+  const handleCreateMatch = async () => {
+    console.log("Creating a match...");
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${userID}/match-one-user`, {
+
+  });
+      console.log('Response:', response);
+      
+      if (response.status === 200) {
+        const responseData = await response.json();
+        console.log('Response Data:', responseData);
+
+        if (responseData && responseData.message === "We found a match for you!") {
+        // Access the matching user's information from the 'matched' object
+          const matchInfo = responseData.matched;
+
+          // Check if matchInfo is not empty and contains the expected data
+          if (matchInfo) {
+            console.log('Match Info:', matchInfo);
+            setMatchingUserInfo(matchInfo);
+            setShowMatchModal(true);
+
+            // Refetch the user data to ensure the frontend is in sync with the backend
+            fetchUserData(userID);
+          } else {
+            console.error('Match information is missing or empty.');
+          }
+        }
+      } else {
+        console.error('Failed to create a match');
+      }
+    } catch (error) {
+      console.error('Error creating a match: ', error);
+    }
+  };
+
+  // Function to open the modal
+  const [matchingUserInfo, setMatchingUserInfo] = useState(null);
+  // Function to close the modal
+  const handleCloseMatchModal = () => {
+    setShowMatchModal(false);
+  };
+
+  // Function to unmatch
+  const handleUnMatch = () => {
+    if (!groupID) {
+        setErrorMessage('Failed to unmatch');
+        setShowError(true);
+        return;
+    }
+    // Display the confirmation modal
+    setShowConfirmUnmatchModal(true);
+};
+
+  const handleUnMatchConfirmed = async () => {
+    // Close the confirmation modal first
+    setShowConfirmUnmatchModal(false);
+
+    try {
+        // Call the backend to disband the group
+        const response = await fetch(`http://localhost:5000/api/groups/${groupID}/disband/`, {
+            method: "DELETE",
+        });
+
+        if (response.ok) {
+            setShowUnmatchModal(true);
+            setGroupID(null);
+            setMatchingUserInfo(null);
+        } else {
+            setErrorMessage('Failed to unmatch');
+            setShowError(true);
+        }
+    } catch (error) {
+        console.error("Error during unmatch: ", error);
+        setErrorMessage('An unexpected error occurred: ' + error.message);
+        setShowError(true);
+    }
+};
   return (
     <div className="container">
       <div className="main-body">
         <div className="row gutters-sm">
           <div className="col-md-4 mb-3">
+
             <div className="card">
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center text-center">
                   <img src={profile} alt="Basic profile image" className="rounded-circle" width="70%" />
                   <div className="mt-3">
                     <h4>{user ? user.name : 'Loading...'}</h4>
-                    <p className="text-secondary mb-1"></p>
-                    <p className="text-muted font-size-sm"></p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="card mt-3">
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                  <h6 className="mb-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      className="feather feather-globe mr-2 icon-inline"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg><br></br>
-                    I'm a student from WCCI with a flair for photography, avid reader, and design enthusiast. Love exploring new places and cuisines. Let's connect and create a study group! 
-                       <Button variant="outline-dark"  >
-                              Create A Match
-                        </Button>
-                  </h6>
-                  <span className="text-secondary"></span>
-                </li>
-                {/* Add the rest of the list items here (GitHub, Twitter, Instagram, Facebook) */}
-              </ul>
+
+            <div className="card mt-3 align-items-center text-center">
+              <hr/>
+                <h5 className="mb-0 ">About Me</h5>
+                <div className="mt-2 p-1">
+                  {isEditing ? (
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={editedUserData.about}
+                        onChange={(e) =>
+                        setEditedUserData({ 
+                          ...editedUserData,
+                          about: e.target.value })}
+                      />
+                    ) : (
+                      user ? (
+                        user.about || 'Let others know about you!'
+                      ) : (
+                        'Loading...'
+                      )
+                    )}
+                </div>
+                <hr/>
             </div>
+
           </div>
+
+          
           <div className="col-md-8">
             <div className="card mb-3">
               <div className="card-body">
@@ -444,18 +539,140 @@ export default function Profile() {
                 </div>
 
                 <hr />
-
+        
                 <div className="row">
                   <div className="col-sm-12">
                     {isEditing ? (
-                      <Button variant="info" onClick={handleSaveChanges}>
+                      <Button variant="outline-dark" onClick={handleSaveChanges}>
                         Save Changes
                       </Button>
                     ) : (
-                      <Button variant="info" onClick={handleEditClick}>
+                      <Button variant="outline-dark" onClick={handleEditClick}>
                         Edit
                       </Button>
                     )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {showError && 
+              <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                {errorMessage}
+                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setShowError(false)}></button>
+              </div>
+            }
+            <div className="card mb-3">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-sm-12 align-items-center text-center">
+                    
+                      {/* "Create A Match" button */}
+                      <Button variant="outline-dark" onClick={handleCreateMatch}>
+                        Create A Match
+                      </Button>
+                      
+                      {/* Modal for match information */}
+                      <Modal show={showMatchModal} onHide={handleCloseMatchModal}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Match Details</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          {matchingUserInfo ? (
+                            <div>
+                              <ul className="list-group list-group-flush">
+                                  <li className="list-group-item"><strong>Name:</strong> {matchingUserInfo.name}</li>
+                                  <li className="list-group-item"><strong>Email:</strong> {matchingUserInfo.email}</li>
+                                  <li className="list-group-item"><strong>Major:</strong> {matchingUserInfo.major}</li>
+                                  <li className="list-group-item"><strong>Subject:</strong> {matchingUserInfo.subject}</li>
+                                  <li className="list-group-item"><strong>Course:</strong> {matchingUserInfo.classroom}</li>
+                                  <li className="list-group-item"><strong>Skill Level:</strong> {matchingUserInfo.skillLevel}</li>
+                              </ul>
+                            </div>
+                          ) : (
+                            <p>Loading match information...</p>
+                          )}
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleCloseMatchModal}>
+                            Close
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+
+                      <hr />
+
+                      <h5 className="mb-0 ">Your Matched Buddy Info:</h5>
+                      
+                        <div className="row">
+                          <div className="col-sm-3">
+                            <h6 className="mb-0">Name</h6>
+                          </div>
+                          <div className="col-sm-9 text-secondary">
+                              <Form.Control
+                                className="border-0"
+                                type="text"
+                                value={matchingUserInfo ? matchingUserInfo.name : ''}
+                                readOnly
+                              />
+                          </div>
+                        </div>
+                        <hr/>
+                        <div className="row">
+                          <div className="col-sm-3">
+                            <h6 className="mb-0">Email</h6>
+                          </div>
+                          <div className="col-sm-9 text-secondary">
+                              <Form.Control
+                                className="border-0"
+                                type="text"
+                                value={matchingUserInfo ? matchingUserInfo.email : ''}
+                                readOnly
+                              />
+                          </div>
+                        </div>
+
+                      <hr/>
+
+                      {/* "Create A Un-Match" button */}
+                      <Button variant="warning" onClick={handleUnMatch}>
+                        Leave Group
+                      </Button>
+                      
+                      {/* Modal for unmatch confirmation */}
+                      <Modal show={showConfirmUnmatchModal} onHide={() => setShowConfirmUnmatchModal(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Confirm Unmatch</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            Are you sure you want to unmatch and disband the group?
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => setShowConfirmUnmatchModal(false)}>
+                                Cancel
+                            </Button>
+                            <Button variant="danger" onClick={handleUnMatchConfirmed}>
+                                Yes, Unmatch
+                            </Button>
+                        </Modal.Footer>
+                      </Modal>
+
+                      <Modal show={showUnmatchModal} onHide={() => {
+                        setShowUnmatchModal(false);
+                        setMatchingUserInfo(null);
+                      }}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Unmatch Successful</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>You have successfully disbanded the group!</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => {
+                                setShowUnmatchModal(false);
+                                setMatchingUserInfo(null);
+                            }}>Close</Button>
+                        </Modal.Footer>
+                      </Modal>
                   </div>
                 </div>
               </div>
@@ -466,4 +683,3 @@ export default function Profile() {
     </div>
   );
 }
-
