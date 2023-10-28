@@ -3,16 +3,16 @@ import { Navbar, Nav, Button, Image } from 'react-bootstrap';
 import Login from '../pages/loginForm';
 import { Link } from 'react-router-dom';
 import "../stylesheet/navbar.css";
-const logo = process.env.PUBLIC_URL + '/images/AT-logo.png';
+const defaultLogo = process.env.PUBLIC_URL + '/images/AT-logoGreen.svg';
 const defaultProfileImage  = process.env.PUBLIC_URL + '/images/user-profile.png';
 
-export default function CustomNavbar({ openLogin, isLoggedIn, onLogout, profileImage = defaultProfileImage  }) {
+export default function CustomNavbar({ openLogin, isLoggedIn, onLogout, profileImage = defaultProfileImage, logo = defaultLogo  }) {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="custom-text">
+    <Navbar bg="dark" variant="dark" expand="lg" >
       <Navbar.Brand href="/">
-        <Image src={logo} width="50" height="50" />
+        <Image src={logo} width="50" height="50" alt='logo'/>
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="navbarNav" />
+
       <Navbar.Collapse id="navbarNav">
         <Nav className="ml-auto mr-auto custom-text">
           <Nav.Link className="custom-text" href="/">Home</Nav.Link>
@@ -24,7 +24,7 @@ export default function CustomNavbar({ openLogin, isLoggedIn, onLogout, profileI
         </Nav>
         {isLoggedIn && profileImage && (
           <Link to="/profile">
-            <Image src={profileImage} roundedCircle width="40" height="40"/>
+            <Image src={profileImage} roundedCircle width="40" height="40" className="custom-mg"/>
           </Link>
         )}
 

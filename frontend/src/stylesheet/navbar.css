@@ -1,8 +1,13 @@
 .custom-navbar {
-    background-color: #161621;
+    background-color: #161621 !important;
 }
 
 .custom-text {
-    color: #48d731;
-    font-size: 1.5rem;
+    color: #48d731 !important;
+    font-size: 1.5rem !important;
+}
+
+.custom-mg {
+    margin-right: 0.7rem !important;
+    margin-left: 0.5rem !important;
 }
