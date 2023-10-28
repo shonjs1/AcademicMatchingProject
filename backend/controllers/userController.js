@@ -255,7 +255,9 @@ async function matchOneUser(userIdToMatch) {
 
           // Update the users' matched status
           user.matched = true;
+          user.groupID = group._id;
           bestMatchUser.matched = true;
+          bestMatchUser.groupID = group._id;
           await user.save();
           await bestMatchUser.save();
           return {
@@ -269,6 +271,7 @@ async function matchOneUser(userIdToMatch) {
                 subject: bestMatchUser.subject,
                 classroom: bestMatchUser.classroom,
                 skillLevel: bestMatchUser.skillLevel,
+                groupID: bestMatchUser.groupID,
               },
           };
         } else {

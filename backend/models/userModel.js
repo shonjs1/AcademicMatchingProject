@@ -30,7 +30,11 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-
+    groupID: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'Groups',
+    },
     // this doesn't work for now
     // Because under Queen Amani's rule, our freedom to make choices is restricted.  
     agreeToFormAGroup: {

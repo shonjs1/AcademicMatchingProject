@@ -5,9 +5,12 @@ const profile = process.env.PUBLIC_URL + '/images/user-profile.png'
 
 
 export default function Profile() {
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [user, setUser] = useState(null);
   const [userID, setUserID] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [groupID, setGroupID] = useState(null);
   const [group, setGroup] = useState([]);
   const [editedUserData, setEditedUserData] = useState({
     name: "",
@@ -22,11 +25,12 @@ export default function Profile() {
   const [courses, setCourses] = useState([]);
   const [courseName, setCourseName] = useState("");
   const [accountID, setAccountID] = useState(null);
-  const [secondPersonName, setSecondPersonName] = useState(""); 
-  const [secondPersonEmail, setSecondPersonEmail] = useState(""); 
 
    // Define state variables for the modal
   const [showMatchModal, setShowMatchModal] = useState(false);
+  const [showUnmatchModal, setShowUnmatchModal] = useState(false);
+  const [showConfirmUnmatchModal, setShowConfirmUnmatchModal] = useState(false);
+
   const [matchInfo, setMatchInfo] = useState(null);
 
   useEffect(() => {
@@ -122,6 +126,9 @@ export default function Profile() {
       }
       const data = await response.json();
 
+      if (data && data.groupID) {
+        setGroupID(data.groupID);
+      }
       if (data.error && data.error === "User not found") {
         setUser(null);
       } else {
@@ -166,47 +173,6 @@ export default function Profile() {
     }
   };
 
-  useEffect(() => {
-    if (userID) {
-      fetchGroup();
-    }
-  }, [userID]);
-
-  //Fetch Users Group
-  const fetchGroup = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/groups");
-      if (!response.ok) {
-        throw new Error("Failed to fetch groups");
-      }
-      const groups = await response.json();
-      
-      // Find group where your user is a member
-      const userGroup = groups.find((group) => group.members.includes(userID)); // Assuming userID contains your user's ID
-  
-      if (userGroup) {
-        
-        setGroup(userGroup);
-  
-        if (userGroup.members.length >= 2) {
-          const secondPerson = userGroup.members.find((member) => member !== userID);
-          if (secondPerson) {
-            const secondPersonName = secondPerson.name;
-            console.log(secondPersonName);
-            const secondPersonEmail = secondPerson.email;
-            setSecondPersonName(secondPersonName);
-            setSecondPersonEmail(secondPersonEmail);
-          }
-        }
-      } else {
-        console.log("User is not in any group.");
-      }
-    } catch (error) {
-      console.error("Error fetching groups: ", error);
-    }
-  };
-
-
   // Fetch all courses associated with picked subject
   const fetchCourses = async (selectedSubjectId) => {
     try {
@@ -234,9 +200,10 @@ export default function Profile() {
       !editedUserData.classroom ||
       !editedUserData.skillLevel
     ) {
-      alert("Please fill in all required fields before saving.");
+      setErrorMessage('Please fill in all required fields before saving.');
+      setShowError(true);
       return;
-    }
+  }
   
       const response = await fetch(`http://localhost:5000/api/users/${userID}`, {
         method: "PUT",
@@ -284,47 +251,86 @@ export default function Profile() {
     setIsEditing(!isEditing);
   };
 
-     // Function to open the modal
-    const [matchingUserInfo, setMatchingUserInfo] = useState(null);
+  
+  // Function to create a match
+  const handleCreateMatch = async () => {
+    console.log("Creating a match...");
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${userID}/match-one-user`, {
 
-    const handleCreateMatch = async () => {
-      console.log("Creating a match...");
-      try {
-        const response = await fetch(`http://localhost:5000/api/users/${userID}/match-one-user`, {
+  });
+      console.log('Response:', response);
+      
+      if (response.status === 200) {
+        const responseData = await response.json();
+        console.log('Response Data:', responseData);
 
-    });
-        console.log('Response:', response);
-        
-        if (response.status === 200) {
-          const responseData = await response.json();
-          console.log('Response Data:', responseData);
+        if (responseData && responseData.message === "We found a match for you!") {
+        // Access the matching user's information from the 'matched' object
+          const matchInfo = responseData.matched;
 
-          if (responseData && responseData.message === "We found a match for you!") {
-          // Access the matching user's information from the 'matched' object
-            const matchInfo = responseData.matched;
+          // Check if matchInfo is not empty and contains the expected data
+          if (matchInfo) {
+            console.log('Match Info:', matchInfo);
+            setMatchingUserInfo(matchInfo);
+            setShowMatchModal(true);
 
-            // Check if matchInfo is not empty and contains the expected data
-            if (matchInfo) {
-              console.log('Match Info:', matchInfo);
-              setMatchingUserInfo(matchInfo);
-              setShowMatchModal(true);
-            } else {
-              console.error('Match information is missing or empty.');
-            }
+            // Refetch the user data to ensure the frontend is in sync with the backend
+            fetchUserData(userID);
+          } else {
+            console.error('Match information is missing or empty.');
           }
-        } else {
-          console.error('Failed to create a match');
         }
-      } catch (error) {
-        console.error('Error creating a match: ', error);
+      } else {
+        console.error('Failed to create a match');
       }
-    };
+    } catch (error) {
+      console.error('Error creating a match: ', error);
+    }
+  };
 
-      // Function to close the modal
-    const handleCloseMatchModal = () => {
-      setShowMatchModal(false);
-    };
+  // Function to open the modal
+  const [matchingUserInfo, setMatchingUserInfo] = useState(null);
+  // Function to close the modal
+  const handleCloseMatchModal = () => {
+    setShowMatchModal(false);
+  };
 
+  // Function to unmatch
+  const handleUnMatch = () => {
+    if (!groupID) {
+        setErrorMessage('Failed to unmatch');
+        setShowError(true);
+        return;
+    }
+    // Display the confirmation modal
+    setShowConfirmUnmatchModal(true);
+};
+
+  const handleUnMatchConfirmed = async () => {
+    // Close the confirmation modal first
+    setShowConfirmUnmatchModal(false);
+
+    try {
+        // Call the backend to disband the group
+        const response = await fetch(`http://localhost:5000/api/groups/${groupID}/disband/`, {
+            method: "DELETE",
+        });
+
+        if (response.ok) {
+            setShowUnmatchModal(true);
+            setGroupID(null);
+            setMatchingUserInfo(null);
+        } else {
+            setErrorMessage('Failed to unmatch');
+            setShowError(true);
+        }
+    } catch (error) {
+        console.error("Error during unmatch: ", error);
+        setErrorMessage('An unexpected error occurred: ' + error.message);
+        setShowError(true);
+    }
+};
   return (
     <div className="container">
       <div className="main-body">
@@ -512,7 +518,7 @@ export default function Profile() {
                 </div>
 
                 <hr />
-
+        
                 <div className="row">
                   <div className="col-sm-12">
                     {isEditing ? (
@@ -528,7 +534,12 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-
+            {showError && 
+              <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                {errorMessage}
+                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setShowError(false)}></button>
+              </div>
+            }
             <div className="card mb-3">
               <div className="card-body">
                 <div className="row">
@@ -538,34 +549,6 @@ export default function Profile() {
                       <Button variant="outline-dark" onClick={handleCreateMatch}>
                         Create A Match
                       </Button>
-                      
-                      <h5 className="mb-0 ">Your Matched Buddy Info:</h5>
-                      
-                        <div className="row">
-                          <div className="col-sm-3">
-                            <h6 className="mb-0">Name</h6>
-                          </div>
-                          <div className="col-sm-9 text-secondary">
-                              <Form.Control
-                                type="text"
-                                value={secondPersonName}
-                                readOnly
-                              />
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-sm-3">
-                            <h6 className="mb-0">Email</h6>
-                          </div>
-                          <div className="col-sm-9 text-secondary">
-                              <Form.Control
-                                type="text"
-                                value={secondPersonEmail}
-                                readOnly
-                              />
-                          </div>
-                        </div>
                       
                       {/* Modal for match information */}
                       <Modal show={showMatchModal} onHide={handleCloseMatchModal}>
@@ -592,11 +575,81 @@ export default function Profile() {
                           </Button>
                         </Modal.Footer>
                       </Modal>
-                <hr />
 
+                      <hr />
+
+                      <h5 className="mb-0 ">Your Matched Buddy Info:</h5>
+                      
+                        <div className="row">
+                          <div className="col-sm-3">
+                            <h6 className="mb-0">Name</h6>
+                          </div>
+                          <div className="col-sm-9 text-secondary">
+                              <Form.Control
+                                type="text"
+                                value={matchingUserInfo ? matchingUserInfo.name : ''}
+                                readOnly
+                              />
+                          </div>
+                        </div>
+                        <hr/>
+                        <div className="row">
+                          <div className="col-sm-3">
+                            <h6 className="mb-0">Email</h6>
+                          </div>
+                          <div className="col-sm-9 text-secondary">
+                              <Form.Control
+                                type="text"
+                                value={matchingUserInfo ? matchingUserInfo.email : ''}
+                                readOnly
+                              />
+                          </div>
+                        </div>
+
+                      <hr/>
+
+                      {/* "Create A Un-Match" button */}
+                      <Button variant="outline-dark" onClick={handleUnMatch}>
+                        Un Match
+                      </Button>
+                      
+                      {/* Modal for unmatch confirmation */}
+                      <Modal show={showConfirmUnmatchModal} onHide={() => setShowConfirmUnmatchModal(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Confirm Unmatch</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            Are you sure you want to unmatch and disband the group?
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => setShowConfirmUnmatchModal(false)}>
+                                Cancel
+                            </Button>
+                            <Button variant="danger" onClick={handleUnMatchConfirmed}>
+                                Yes, Unmatch
+                            </Button>
+                        </Modal.Footer>
+                      </Modal>
+
+                      <Modal show={showUnmatchModal} onHide={() => {
+                        setShowUnmatchModal(false);
+                        setMatchingUserInfo(null);
+                      }}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Unmatch Successful</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>You have successfully disbanded the group!</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => {
+                                setShowUnmatchModal(false);
+                                setMatchingUserInfo(null);
+                            }}>Close</Button>
+                        </Modal.Footer>
+                      </Modal>
                   </div>
                 </div>
-                <hr />
               </div>
             </div>
           </div>

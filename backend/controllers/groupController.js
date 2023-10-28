@@ -47,10 +47,10 @@ const deleteGroup = asyncHandler(async (req, res) => {
 }); 
 
 // function to disband a group
-async function disbandGroup(groupId) {
+async function disbandGroup(groupID) {
     try {
       // Find the group by its ID
-        const group = await Group.findOneAndDelete({ _id: groupId });
+        const group = await Group.findOneAndDelete({ _id: groupID });
 
         if (!group) {
             return { error: 'Group not found' };
