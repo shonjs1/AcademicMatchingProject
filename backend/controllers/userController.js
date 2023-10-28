@@ -53,6 +53,8 @@ const updateUser = asyncHandler(async (req, res) => {
   user.major = userData.major;
   // Update user's skill level
   user.skillLevel = userData.skillLevel;
+  // Update user's about me
+  user.about = userData.about;
 
   // Update user's subject by finding the subject's name based on subject ID
   if (userData.subject) {

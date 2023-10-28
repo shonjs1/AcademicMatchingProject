@@ -18,6 +18,7 @@ export default function Profile() {
     subject: "",
     classroom: "",
     skillLevel: "",
+    about: "",
   });
 
   const [subjects, setSubjects] = useState([]);
@@ -132,14 +133,15 @@ export default function Profile() {
       if (data.error && data.error === "User not found") {
         setUser(null);
       } else {
-        const { name, major, subject, classroom, skillLevel } = data;
+        const { name, major, subject, classroom, skillLevel, about } = data;
         setUser(data);
         setEditedUserData({
           name,
           major,
           subject,
           classroom,
-          skillLevel 
+          skillLevel,
+          about
         });
 
         // Fetch and set the subject and course names based on their IDs
@@ -217,6 +219,7 @@ export default function Profile() {
           subject: subject ? subject.name : "",
           classroom: classroom ? classroom.name : "",
           skillLevel: editedUserData.skillLevel,
+          about: editedUserData.about,
         }),
       });
   
@@ -246,6 +249,7 @@ export default function Profile() {
         subject: user ? user.subject : "",
         classroom: user ? user.classroom : "",
         skillLevel: user ? user.skillLevel : "",
+        about: user ? user.about : "",
       });
     }
     setIsEditing(!isEditing);
@@ -348,14 +352,31 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="card mt-3">
-                  <h6 className="mb-0 align-items-center text-center">
-                    About Me
-                  </h6>
-                  <span className="text-secondary"><p className="text-muted font-size-sm">I'm a student from WCCI with a flair for photography, avid reader, and design enthusiast. Love exploring new places and cuisines. Let's connect and create a study group! </p></span>
-
-                {/* Add the rest of the list items here (GitHub, Twitter, Instagram, Facebook) */}
+            <div className="card mt-3 align-items-center text-center">
+              <hr/>
+                <h5 className="mb-0 ">About Me</h5>
+                <div className="mt-2 p-1">
+                  {isEditing ? (
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={editedUserData.about}
+                        onChange={(e) =>
+                        setEditedUserData({ 
+                          ...editedUserData,
+                          about: e.target.value })}
+                      />
+                    ) : (
+                      user ? (
+                        user.about || 'Let others know about you!'
+                      ) : (
+                        'Loading...'
+                      )
+                    )}
+                </div>
+                <hr/>
             </div>
+
           </div>
 
           
@@ -522,11 +543,11 @@ export default function Profile() {
                 <div className="row">
                   <div className="col-sm-12">
                     {isEditing ? (
-                      <Button variant="info" onClick={handleSaveChanges}>
+                      <Button variant="outline-dark" onClick={handleSaveChanges}>
                         Save Changes
                       </Button>
                     ) : (
-                      <Button variant="info" onClick={handleEditClick}>
+                      <Button variant="outline-dark" onClick={handleEditClick}>
                         Edit
                       </Button>
                     )}
@@ -558,12 +579,14 @@ export default function Profile() {
                         <Modal.Body>
                           {matchingUserInfo ? (
                             <div>
-                              <p>Name: {matchingUserInfo.name}</p>
-                              <p>Email: {matchingUserInfo.email}</p>
-                              <p>Major: {matchingUserInfo.major}</p>
-                              <p>Subject: {matchingUserInfo.subject}</p>
-                              <p>Course: {matchingUserInfo.classroom}</p>
-                              <p>Skill Level: {matchingUserInfo.skillLevel}</p>
+                              <ul className="list-group list-group-flush">
+                                  <li className="list-group-item"><strong>Name:</strong> {matchingUserInfo.name}</li>
+                                  <li className="list-group-item"><strong>Email:</strong> {matchingUserInfo.email}</li>
+                                  <li className="list-group-item"><strong>Major:</strong> {matchingUserInfo.major}</li>
+                                  <li className="list-group-item"><strong>Subject:</strong> {matchingUserInfo.subject}</li>
+                                  <li className="list-group-item"><strong>Course:</strong> {matchingUserInfo.classroom}</li>
+                                  <li className="list-group-item"><strong>Skill Level:</strong> {matchingUserInfo.skillLevel}</li>
+                              </ul>
                             </div>
                           ) : (
                             <p>Loading match information...</p>
@@ -586,6 +609,7 @@ export default function Profile() {
                           </div>
                           <div className="col-sm-9 text-secondary">
                               <Form.Control
+                                className="border-0"
                                 type="text"
                                 value={matchingUserInfo ? matchingUserInfo.name : ''}
                                 readOnly
@@ -599,6 +623,7 @@ export default function Profile() {
                           </div>
                           <div className="col-sm-9 text-secondary">
                               <Form.Control
+                                className="border-0"
                                 type="text"
                                 value={matchingUserInfo ? matchingUserInfo.email : ''}
                                 readOnly
@@ -609,8 +634,8 @@ export default function Profile() {
                       <hr/>
 
                       {/* "Create A Un-Match" button */}
-                      <Button variant="outline-dark" onClick={handleUnMatch}>
-                        Un Match
+                      <Button variant="warning" onClick={handleUnMatch}>
+                        Leave Group
                       </Button>
                       
                       {/* Modal for unmatch confirmation */}
