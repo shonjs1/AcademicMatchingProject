@@ -255,7 +255,15 @@ export default function Profile() {
     setIsEditing(!isEditing);
   };
 
-  
+  // Store the matching user info in localStorage
+  useEffect(() => {
+    const storedMatchingUserInfo = localStorage.getItem('matchingUserInfo');
+    
+    if (storedMatchingUserInfo) {
+        setMatchingUserInfo(JSON.parse(storedMatchingUserInfo));
+    }
+  }, []);
+
   // Function to create a match
   const handleCreateMatch = async () => {
     console.log("Creating a match...");
@@ -277,6 +285,10 @@ export default function Profile() {
           if (matchInfo) {
             console.log('Match Info:', matchInfo);
             setMatchingUserInfo(matchInfo);
+
+            // Store the matching user info in localStorage
+            localStorage.setItem('matchingUserInfo', JSON.stringify(matchInfo));
+
             setShowMatchModal(true);
 
             // Refetch the user data to ensure the frontend is in sync with the backend
