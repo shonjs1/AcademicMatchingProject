@@ -1,31 +1,34 @@
 import React from 'react';
-import { Navbar, Nav, Button, Image  } from 'react-bootstrap';
+import { Navbar, Nav, Button, Image } from 'react-bootstrap';
 import Login from '../pages/loginForm';
 import { Link } from 'react-router-dom';
-
+import "../stylesheet/navbar.css";
+const defaultLogo = process.env.PUBLIC_URL + '/images/AT-logo.png';
 const defaultProfileImage  = process.env.PUBLIC_URL + '/images/user-profile.png';
 
-export default function CustomNavbar({ openLogin, isLoggedIn, onLogout, profileImage = defaultProfileImage  }) {
+export default function CustomNavbar({ openLogin, isLoggedIn, onLogout, profileImage = defaultProfileImage, logo = defaultLogo  }) {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
-      <Navbar.Brand href="/">Logo</Navbar.Brand>
-      <Navbar.Toggle aria-controls="navbarNav" />
+    <Navbar bg="dark" variant="dark" expand="lg" >
+      <Navbar.Brand href="/">
+        <Image src={logo} width="50" height="50" alt='logo'/>
+      </Navbar.Brand>
+
       <Navbar.Collapse id="navbarNav">
-        <Nav className="ml-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/about">About</Nav.Link>
-          <Nav.Link href="/services">Services</Nav.Link>
-          <Nav.Link href="/contact">Contact</Nav.Link>
-          <Nav.Link href="/calendar">Calendar</Nav.Link>
+        <Nav className="ml-auto mr-auto custom-text">
+          <Nav.Link className="custom-text" href="/">Home</Nav.Link>
+          <Nav.Link className="custom-text" href="/about">About</Nav.Link>
+          <Nav.Link className="custom-text" href="/services">Services</Nav.Link>
+          <Nav.Link className="custom-text" href="/contact">Contact</Nav.Link>
+          <Nav.Link className="custom-text" href="/calendar">Calendar</Nav.Link>
           {/* <Nav.Link href="/profile">Profile</Nav.Link> */} {/* To access profile, click green login btn inside NAV login */}
         </Nav>
         {isLoggedIn && profileImage && (
           <Link to="/profile">
-            <Image src={profileImage} roundedCircle width="40" height="40" className="mr-2" />
+            <Image src={profileImage} roundedCircle width="40" height="40" className="custom-mg"/>
           </Link>
         )}
 
-        <Button variant="outline-light" className="btnLogin-popup ml-2" onClick={isLoggedIn ? onLogout : openLogin}>
+        <Button variant="outline-light" className="btnLogin-popup ml-2 custom-text" onClick={isLoggedIn ? onLogout : openLogin}>
           {isLoggedIn ? 'Logout' : 'Login'}
         </Button>
       </Navbar.Collapse>
