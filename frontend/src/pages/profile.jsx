@@ -337,6 +337,8 @@ export default function Profile() {
             setShowUnmatchModal(true);
             setGroupID(null);
             setMatchingUserInfo(null);
+            // Clear matchingUserInfo from localStorage
+            localStorage.removeItem('matchingUserInfo');
         } else {
             setErrorMessage('Failed to unmatch');
             setShowError(true);

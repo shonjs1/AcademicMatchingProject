@@ -3,7 +3,7 @@ import { Navbar, Nav, Button, Image } from 'react-bootstrap';
 import Login from '../pages/loginForm';
 import { Link } from 'react-router-dom';
 import "../stylesheet/navbar.css";
-const defaultLogo = process.env.PUBLIC_URL + '/images/AT-logoGreen.svg';
+const defaultLogo = process.env.PUBLIC_URL + '/images/AT-logo.png';
 const defaultProfileImage  = process.env.PUBLIC_URL + '/images/user-profile.png';
 
 export default function CustomNavbar({ openLogin, isLoggedIn, onLogout, profileImage = defaultProfileImage, logo = defaultLogo  }) {
